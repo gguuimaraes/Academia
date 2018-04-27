@@ -19,11 +19,10 @@
 			<ui:include src="incluirPopup.xhtml" />
 		</p:dialog>
 
-
-
 		<h:form id="form-consulta" style="height:100%">
-			<p:commandButton icon="ui-icon-plus" title="Incluir" ajax="true"
+			<p:commandButton icon="ui-icon-plus" title="Incluir Pessoa" style="left: 2%; margin: auto" value="Incluir Pessoa" ajax="true"
 				onclick="PF('dialog-modal-incluir').show();" />
+				
 			<p:dataTable id="dataTable-registros" var="pessoa" value="#{consultarPessoaController.pessoas}"
 				rows="15" paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -46,9 +45,7 @@
 
 				<p:column headerText="Cadastro" filterBy="#{pessoa.dataCadastro}" filterMatchMode="equals"
 					filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.dataCadastro}">
-
-					</h:outputText>
+					<h:outputText value="#{pessoa.dataCadastro}" />
 				</p:column>
 
 				<p:column headerText="Email" filterBy="#{pessoa.email}" filterMatchMode="contains"
