@@ -4,6 +4,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+
 import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.repository.PessoaRepository;
 import br.com.pmgt.usuario.controller.UsuarioController;
@@ -46,6 +48,8 @@ public class CadastrarPessoaController {
 
 		Uteis.MensagemInfo("Registro cadastrado com sucesso");
 
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('dialog-modal-incluir').hide();");
 	}
 
 }
