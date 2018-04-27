@@ -14,10 +14,16 @@
 			<ui:include src="alterar.xhtml" />
 		</p:dialog>
 
+		<p:dialog header="Incluir Pessoa" id="dialog-modal-incluir" widgetVar="dialog-modal-incluir"
+			modal="true" height="400px" width="550px">
+			<ui:include src="incluirPopup.xhtml" />
+		</p:dialog>
+
 
 
 		<h:form id="form-consulta" style="height:100%">
-
+			<p:commandButton icon="ui-icon-plus" title="Incluir" ajax="true"
+				onclick="PF('dialog-modal-incluir').show();" />
 			<p:dataTable id="dataTable-registros" var="pessoa" value="#{consultarPessoaController.pessoas}"
 				rows="15" paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
