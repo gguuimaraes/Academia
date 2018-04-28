@@ -27,7 +27,7 @@ public class PessoaRepository {
 	 * 
 	 * @param pessoaModel
 	 */
-	public void SalvarNovoRegistro(PessoaModel pessoaModel) {
+	public void incluir(PessoaModel pessoaModel) {
 
 		entityManager = Uteis.JpaEntityManager();
 
@@ -38,8 +38,7 @@ public class PessoaRepository {
 		pessoa.setNome(pessoaModel.getNome());
 		pessoa.setSexo(pessoaModel.getSexo());
 
-		Usuario usuarioCadastro = entityManager.find(Usuario.class,
-				pessoaModel.getUsuarioModel().getCodigo());
+		Usuario usuarioCadastro = entityManager.find(Usuario.class, pessoaModel.getUsuarioCadastro().getCodigo());
 
 		pessoa.setUsuarioCadastro(usuarioCadastro);
 
@@ -52,7 +51,7 @@ public class PessoaRepository {
 	 * 
 	 * @return
 	 */
-	public List<PessoaModel> GetPessoas() {
+	public List<PessoaModel> listar() {
 
 		List<PessoaModel> pessoasModel = new ArrayList<PessoaModel>();
 
@@ -73,18 +72,14 @@ public class PessoaRepository {
 			pessoaModel.setEmail(pessoa.getEmail());
 			pessoaModel.setEndereco(pessoa.getEndereco());
 			pessoaModel.setNome(pessoa.getNome());
-
-			if (pessoa.getSexo().equals("M"))
-				pessoaModel.setSexo("Masculino");
-			else
-				pessoaModel.setSexo("Feminino");
+			pessoaModel.setSexo(pessoa.getSexo());
 
 			Usuario usuarioCadastro = pessoa.getUsuarioCadastro();
 
 			UsuarioModel usuarioModel = new UsuarioModel();
-			usuarioModel.setUsuario(usuarioCadastro.getUsuario());
+			usuarioModel.setNome(usuarioCadastro.getNome());
 
-			pessoaModel.setUsuarioModel(usuarioModel);
+			pessoaModel.setUsuarioCadastro(usuarioModel);
 
 			pessoasModel.add(pessoaModel);
 		}
@@ -99,7 +94,7 @@ public class PessoaRepository {
 	 * @param codigo
 	 * @return
 	 */
-	private Pessoa GetPessoa(int codigo) {
+	private Pessoa consultar(int codigo) {
 
 		entityManager = Uteis.JpaEntityManager();
 
@@ -111,11 +106,11 @@ public class PessoaRepository {
 	 * 
 	 * @param pessoaModel
 	 */
-	public void AlterarRegistro(PessoaModel pessoaModel) {
+	public void alterar(PessoaModel pessoaModel) {
 
 		entityManager = Uteis.JpaEntityManager();
 
-		Pessoa pessoaEntity = this.GetPessoa(pessoaModel.getCodigo());
+		Pessoa pessoaEntity = this.consultar(pessoaModel.getCodigo());
 
 		pessoaEntity.setEmail(pessoaModel.getEmail());
 		pessoaEntity.setEndereco(pessoaModel.getEndereco());
@@ -130,11 +125,11 @@ public class PessoaRepository {
 	 * 
 	 * @param codigo
 	 */
-	public void ExcluirRegistro(int codigo) {
+	public void excluir(int codigo) {
 
 		entityManager = Uteis.JpaEntityManager();
 
-		Pessoa pessoaEntity = this.GetPessoa(codigo);
+		Pessoa pessoaEntity = this.consultar(codigo);
 
 		entityManager.remove(pessoaEntity);
 	}

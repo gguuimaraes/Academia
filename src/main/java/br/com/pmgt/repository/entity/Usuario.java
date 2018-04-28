@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @NamedQueries({
 	
-		@NamedQuery(name = "Usuario.findUser", query = "SELECT u FROM Usuario u WHERE u.usuario = :usuario AND u.senha = :senha")
+		@NamedQuery(name = "Usuario.findUser", query = "SELECT u FROM Usuario u WHERE u.nome = :nome AND u.senha = :senha")
 
 })
 
@@ -29,8 +29,8 @@ public class Usuario implements Serializable {
 	@Column(name = "codigo")
 	private Integer codigo;
 
-	@Column(name = "usuario")
-	private String usuario;
+	@Column(name = "nome")
+	private String nome;
 
 	@Column(name = "senha")
 	private String senha;
@@ -43,12 +43,12 @@ public class Usuario implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public String getUsuario() {
-		return usuario;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getSenha() {

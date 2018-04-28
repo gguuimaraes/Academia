@@ -1,18 +1,18 @@
 package br.com.pmgt.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+
+import br.com.pmgt.uteis.Sexo;
 
 public class PessoaModel {
 
 	private Integer codigo;
 	private String nome;
-	private String sexo;
+	private Sexo sexo = Sexo.MASCULINO;
 	private Date dataCadastro;
 	private String email;
 	private String endereco;
-	private String origemCadastro;
-	private UsuarioModel usuarioModel;
+	private UsuarioModel usuarioCadastro;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -30,11 +30,11 @@ public class PessoaModel {
 		this.nome = nome;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -62,20 +62,11 @@ public class PessoaModel {
 		this.endereco = endereco;
 	}
 
-	public String getOrigemCadastro() {
-		return origemCadastro;
+	public UsuarioModel getUsuarioCadastro() {
+		return usuarioCadastro;
 	}
 
-	public void setOrigemCadastro(String origemCadastro) {
-		this.origemCadastro = origemCadastro;
+	public void setUsuarioCadastro(UsuarioModel usuarioCadastro) {
+		this.usuarioCadastro = usuarioCadastro;
 	}
-
-	public UsuarioModel getUsuarioModel() {
-		return usuarioModel;
-	}
-
-	public void setUsuarioModel(UsuarioModel usuarioModel) {
-		this.usuarioModel = usuarioModel;
-	}
-
 }

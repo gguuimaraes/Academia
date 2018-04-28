@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import br.com.pmgt.uteis.Sexo;
+
 @Entity
 @Table(name = "pessoa")
 
@@ -27,14 +29,14 @@ public class Pessoa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "codigo")
 	private Integer codigo;
 
 	@Column(name = "nome")
 	private String nome;
 
 	@Column(name = "sexo")
-	private String sexo;
+	private Sexo sexo;
 
 	@Column(name = "email")
 	private String email;
@@ -43,7 +45,7 @@ public class Pessoa {
 	private String endereco;
 
 	@Column(name = "dataCadastro")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
 	
 	@OneToOne
@@ -66,11 +68,11 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	public String getSexo() {
+	public Sexo getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 

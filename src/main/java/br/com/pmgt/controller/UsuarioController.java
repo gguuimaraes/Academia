@@ -1,4 +1,4 @@
-package br.com.pmgt.usuario.controller;
+package br.com.pmgt.controller;
 
 import java.io.Serializable;
 
@@ -49,7 +49,7 @@ public class UsuarioController implements Serializable {
 
 	public String efetuarLogin() {
 
-		if (StringUtils.isEmpty(usuarioModel.getUsuario()) || StringUtils.isBlank(usuarioModel.getUsuario())) {
+		if (StringUtils.isEmpty(usuarioModel.getNome()) || StringUtils.isBlank(usuarioModel.getNome())) {
 			Uteis.Mensagem("Favor informar o usuário!");
 			return null;
 		} else if (StringUtils.isEmpty(usuarioModel.getSenha()) || StringUtils.isBlank(usuarioModel.getSenha())) {
