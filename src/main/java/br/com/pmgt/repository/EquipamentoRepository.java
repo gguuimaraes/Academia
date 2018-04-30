@@ -29,7 +29,6 @@ public class EquipamentoRepository {
 		equipamento.setDataAquisicao(equipamentoModel.getDataAquisicao());
 		equipamento.setValorCompra(equipamentoModel.getValorCompra());
 		equipamento.setDataCadastro(new Date());		
-		equipamento.setUsuarioCadastro(entityManager.find(Usuario.class, equipamentoModel.getUsuarioCadastro().getCodigo()));
 		entityManager.persist(equipamento);
 	}
 
@@ -50,7 +49,6 @@ public class EquipamentoRepository {
 			equipamentoModel.setDataAquisicao(equipamento.getDataAquisicao());
 			equipamentoModel.setValorCompra(equipamento.getValorCompra());
 			equipamentoModel.setDataCadastro(equipamento.getDataCadastro());		
-			equipamentoModel.setUsuarioCadastro(new UsuarioModel(equipamento.getUsuarioCadastro().getNome()));
 			equipamentosModel.add(equipamentoModel);
 		}
 		return equipamentosModel;

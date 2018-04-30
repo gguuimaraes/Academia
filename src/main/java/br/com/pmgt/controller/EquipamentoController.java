@@ -63,7 +63,6 @@ public class EquipamentoController implements Serializable {
 	public void salvar() {
 		String operacao = "incluir";
 		if (equipamentoModel.getCodigo() == null) {
-			equipamentoModel.setUsuarioCadastro(usuarioController.GetUsuarioSession());
 			equipamentoRepository.incluir(equipamentoModel);
 			equipamentoModel = new EquipamentoModel();	
 		} else {

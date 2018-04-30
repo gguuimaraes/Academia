@@ -13,8 +13,10 @@ public class UsuarioModel implements Serializable {
 	public UsuarioModel() {
 	}
 	
-	public UsuarioModel(String nome) {
+	public UsuarioModel(Integer codigo, String nome, String senha) {
+		this.codigo = codigo;
 		this.nome = nome;
+		this.senha = senha;
 	}
 
 	public Integer getCodigo() {

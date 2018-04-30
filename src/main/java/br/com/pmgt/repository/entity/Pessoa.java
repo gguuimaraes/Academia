@@ -38,20 +38,20 @@ public class Pessoa {
 	@Column(name = "sexo")
 	private Sexo sexo;
 
-	//@Pattern(regexp="^[_A-Za-z0-9-\\\\+]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$")
+	// @Pattern(regexp="^[_A-Za-z0-9-\\\\+]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$")
 	@Column(name = "email")
 	private String email;
 
 	@Column(name = "endereco")
 	private String endereco;
 
+	@OneToOne
+	@JoinColumn(name = "idUsuario")
+	private Usuario usuario;
+
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
-	
-	@OneToOne
-	@JoinColumn(name = "idUsuarioCadastro")
-	private Usuario usuarioCadastro;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -77,14 +77,6 @@ public class Pessoa {
 		this.sexo = sexo;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -101,12 +93,20 @@ public class Pessoa {
 		this.endereco = endereco;
 	}
 
-	public Usuario getUsuarioCadastro() {
-		return usuarioCadastro;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsuarioCadastro(Usuario usuarioCadastro) {
-		this.usuarioCadastro = usuarioCadastro;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 }

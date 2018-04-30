@@ -9,10 +9,10 @@ public class PessoaModel {
 	private Integer codigo;
 	private String nome;
 	private Sexo sexo = Sexo.MASCULINO;
-	private Date dataCadastro;
 	private String email;
 	private String endereco;
-	private UsuarioModel usuarioCadastro;
+	private UsuarioModel usuario = null;
+	private Date dataCadastro;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -38,14 +38,6 @@ public class PessoaModel {
 		this.sexo = sexo;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -62,11 +54,23 @@ public class PessoaModel {
 		this.endereco = endereco;
 	}
 
-	public UsuarioModel getUsuarioCadastro() {
-		return usuarioCadastro;
+	public UsuarioModel getUsuario() {
+		return usuario;
 	}
 
-	public void setUsuarioCadastro(UsuarioModel usuarioCadastro) {
-		this.usuarioCadastro = usuarioCadastro;
+	public void setUsuario(UsuarioModel usuario) {
+		this.usuario = usuario;
+	}
+
+	public boolean temUsuario() {
+		return usuario != null;
+	}
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 }

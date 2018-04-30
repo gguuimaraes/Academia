@@ -24,20 +24,20 @@ public class PessoaRepository {
 
 	public void incluir(PessoaModel pessoaModel) {
 		entityManager = Uteis.JpaEntityManager();
-		
+
 		pessoa = new Pessoa();
 		pessoa.setNome(pessoaModel.getNome());
 		pessoa.setSexo(pessoaModel.getSexo());
 		pessoa.setEmail(pessoaModel.getEmail());
 		pessoa.setEndereco(pessoaModel.getEndereco());
+		pessoa.setUsuario(null);
 		pessoa.setDataCadastro(new Date());
-		pessoa.setUsuarioCadastro(entityManager.find(Usuario.class, pessoaModel.getUsuarioCadastro().getCodigo()));
 		entityManager.persist(pessoa);
 	}
 
 	public List<PessoaModel> listar() {
 		entityManager = Uteis.JpaEntityManager();
-		
+
 		List<PessoaModel> pessoasModel = new ArrayList<PessoaModel>();
 		Query query = entityManager.createNamedQuery("Pessoa.findAll");
 		@SuppressWarnings("unchecked")
@@ -46,12 +46,16 @@ public class PessoaRepository {
 		for (Pessoa pessoa : pessoas) {
 			pessoaModel = new PessoaModel();
 			pessoaModel.setCodigo(pessoa.getCodigo());
-			pessoaModel.setDataCadastro(pessoa.getDataCadastro());
-			pessoaModel.setEmail(pessoa.getEmail());
-			pessoaModel.setEndereco(pessoa.getEndereco());
 			pessoaModel.setNome(pessoa.getNome());
 			pessoaModel.setSexo(pessoa.getSexo());
-			pessoaModel.setUsuarioCadastro(new UsuarioModel(pessoa.getUsuarioCadastro().getNome()));
+			pessoaModel.setEmail(pessoa.getEmail());
+			pessoaModel.setEndereco(pessoa.getEndereco());
+			pessoaModel.setUsuario(
+					pessoa.getUsuario() != null
+							? new UsuarioModel(pessoa.getUsuario().getCodigo(), pessoa.getUsuario().getNome(),
+									pessoa.getUsuario().getSenha())
+							: null);
+			pessoaModel.setDataCadastro(pessoa.getDataCadastro());
 			pessoasModel.add(pessoaModel);
 		}
 		return pessoasModel;
@@ -59,24 +63,25 @@ public class PessoaRepository {
 
 	private Pessoa consultar(int codigo) {
 		entityManager = Uteis.JpaEntityManager();
-		
+
 		return entityManager.find(Pessoa.class, codigo);
 	}
 
 	public void alterar(PessoaModel pessoaModel) {
 		entityManager = Uteis.JpaEntityManager();
-		
-		Pessoa pessoaEntity = consultar(pessoaModel.getCodigo());
-		pessoaEntity.setEmail(pessoaModel.getEmail());
-		pessoaEntity.setEndereco(pessoaModel.getEndereco());
-		pessoaEntity.setNome(pessoaModel.getNome());
-		pessoaEntity.setSexo(pessoaModel.getSexo());
-		entityManager.merge(pessoaEntity);
+
+		Pessoa pessoa = consultar(pessoaModel.getCodigo());
+		pessoa.setNome(pessoaModel.getNome());
+		pessoa.setSexo(pessoaModel.getSexo());
+		pessoa.setEmail(pessoaModel.getEmail());
+		pessoa.setEndereco(pessoaModel.getEndereco());
+		pessoa.setUsuario(entityManager.find(Usuario.class, pessoaModel.getUsuario().getCodigo()));
+		entityManager.merge(pessoa);
 	}
 
 	public void excluir(int codigo) {
 		entityManager = Uteis.JpaEntityManager();
-		
+
 		entityManager.remove(consultar(codigo));
 	}
 }

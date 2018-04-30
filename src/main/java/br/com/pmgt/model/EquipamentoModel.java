@@ -11,7 +11,6 @@ public class EquipamentoModel {
 	private Date dataAquisicao;
 	private Float valorCompra;
 	private Date dataCadastro;
-	private UsuarioModel usuarioCadastro;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -51,13 +50,5 @@ public class EquipamentoModel {
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
-	}
-
-	public UsuarioModel getUsuarioCadastro() {
-		return usuarioCadastro;
-	}
-
-	public void setUsuarioCadastro(UsuarioModel usuarioCadastro) {
-		this.usuarioCadastro = usuarioCadastro;
 	}
 }

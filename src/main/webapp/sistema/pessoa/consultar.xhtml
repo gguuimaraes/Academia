@@ -35,47 +35,66 @@
 				<p:resetInput target=":dialog-modal-incluir" />
 			</p:commandButton>
 
-			<p:dataTable id="dataTable-registros" var="pessoa" value="#{pessoaController.pessoas}" rows="15"
-				paginator="true" emptyMessage="Nenhum registro."
+			<p:dataTable id="dataTable-registros" widgetVar="dataTable-registros" var="pessoa"
+				value="#{pessoaController.pessoas}" rows="15" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" styleClass="table">
 
-				<p:column headerText="Código" filterBy="#{pessoa.codigo}" filterMatchMode="contains"
+				<p:column headerText="Código" filterBy="#{pessoa.codigo}" sortBy="#{pessoa.codigo}"
 					filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome" filterBy="#{pessoa.nome}" filterMatchMode="contains"
-					filterStyleClass="filter-input">
+				<p:column headerText="Nome" filterBy="#{pessoa.nome}" sortBy="#{pessoa.nome}"
+					filterMatchMode="contains" filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.nome}" />
 				</p:column>
 
-				<p:column headerText="Sexo" filterBy="#{pessoa.sexo}" filterMatchMode="contains"
+				<p:column headerText="Sexo" filterBy="#{pessoa.sexo}" sortBy="#{pessoa.sexo}"
 					filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.sexo}" />
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('dataTable-registros').filter()">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+							<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" var="sexo"
+								itemLabel="#{sexo.toString()}" itemValue="#{sexo.toString()}" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{pessoa.sexo.toString()}" />
 				</p:column>
 
-				<p:column headerText="Cadastro" filterBy="#{pessoa.dataCadastro}" filterMatchMode="equals"
-					filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.dataCadastro}">
-						<f:convertDateTime locale="pt_BR" />
-					</h:outputText>
-
-				</p:column>
-
-				<p:column headerText="Email" filterBy="#{pessoa.email}" filterMatchMode="contains"
-					filterStyleClass="filter-input" style="width:200px;">
+				<p:column headerText="Email" filterBy="#{pessoa.email}" sortBy="#{pessoa.email}"
+					filterMatchMode="contains" filterStyleClass="filter-input" style="width:200px;">
 					<h:outputText value="#{pessoa.email}" />
 				</p:column>
 
-				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}" filterMatchMode="contains"
-					filterStyleClass="filter-input" style="width:200px;">
+				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}" sortBy="#{pessoa.endereco}"
+					filterMatchMode="contains" filterStyleClass="filter-input" style="width:200px;">
 					<h:outputText value="#{pessoa.endereco}" />
 				</p:column>
 
-				<p:column headerText="Usuário" filterBy="#{pessoa.usuarioCadastro.nome}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.usuarioCadastro.nome}" />
+				<p:column headerText="Tem Usuário" filterBy="#{pessoa.temUsuario()}"
+					sortBy="#{pessoa.temUsuario()}" filterStyleClass="filter-input">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('dataTable-registros').filter()">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+							<f:selectItem itemLabel="Sim" itemValue="true" />
+							<f:selectItem itemLabel="Não" itemValue="false" />
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{pessoa.temUsuario() ? 'Sim' : 'Não'}" />
+				</p:column>
+
+				<p:column headerText="Data Cadastro" filterBy="#{pessoa.dataCadastro}"
+					sortBy="#{pessoa.dataCadastro}" filterStyleClass="filter-input">
+					<f:facet name="filter">
+						<p:calendar pattern="dd/MM/yyyy">
+							<!-- "PF('dataTable-registros').filter()" -->
+							<f:convertDateTime locale="pt_BR" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{pessoa.dataCadastro}">
+						<f:convertDateTime locale="pt_BR" />
+					</h:outputText>
 				</p:column>
 
 				<p:column style="width:25px;">

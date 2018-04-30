@@ -52,8 +52,8 @@
 					<h:outputText value="#{equipamento.descricao}" />
 				</p:column>
 
-				<p:column headerText="Aquisição" filterBy="#{equipamento.dataAquisicao}"
-					filterMatchMode="equals" filterStyleClass="filter-input">
+				<p:column headerText="Data Aquisição" filterBy="#{equipamento.dataAquisicao}"
+					filterStyleClass="filter-input">
 					<h:outputText value="#{equipamento.dataAquisicao}">
 						<f:convertDateTime locale="pt_BR" />
 					</h:outputText>
@@ -64,18 +64,12 @@
 					<h:outputText value="#{equipamento.valorCompra}" />
 				</p:column>
 
-
-				<p:column headerText="Cadastro" filterBy="#{equipamento.dataCadastro}" filterMatchMode="equals"
+				<p:column headerText="Data Cadastro" filterBy="#{equipamento.dataCadastro}"
 					filterStyleClass="filter-input">
 					<h:outputText value="#{equipamento.dataCadastro}">
 						<f:convertDateTime locale="pt_BR" />
 					</h:outputText>
 
-				</p:column>
-
-				<p:column headerText="Usuário" filterBy="#{equipamento.usuarioCadastro.nome}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{equipamento.usuarioCadastro.nome}" />
 				</p:column>
 
 				<p:column style="width:25px;">

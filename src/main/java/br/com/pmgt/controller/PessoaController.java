@@ -63,7 +63,6 @@ public class PessoaController implements Serializable {
 	public void salvar() {
 		String operacao = "incluir";
 		if (pessoaModel.getCodigo() == null) {
-			pessoaModel.setUsuarioCadastro(usuarioController.GetUsuarioSession());
 			pessoaRepository.incluir(pessoaModel);
 			pessoaModel = new PessoaModel();
 		} else {

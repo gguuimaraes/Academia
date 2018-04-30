@@ -43,10 +43,6 @@ public class Equipamento {
 	@Column(name = "dataCadastro")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
-	
-	@OneToOne
-	@JoinColumn(name = "idUsuarioCadastro")
-	private Usuario usuarioCadastro;
 
 	public Integer getCodigo() {
 		return codigo;
@@ -88,12 +84,5 @@ public class Equipamento {
 		this.dataCadastro = dataCadastro;
 	}
 	
-	public Usuario getUsuarioCadastro() {
-		return usuarioCadastro;
-	}
-
-	public void setUsuarioCadastro(Usuario usuarioCadastro) {
-		this.usuarioCadastro = usuarioCadastro;
-	}
 
 }

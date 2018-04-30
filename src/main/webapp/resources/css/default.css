@@ -5,8 +5,8 @@
 
 html, body {
 	padding: 0;
-    margin: 0;
-	height: 100%;    
+	margin: 0;
+	height: 100%;
 }
 
 #content {
@@ -25,12 +25,12 @@ html, body {
 #footer {
 	position: fixed;
 	bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: black;
-    color: white;
-    text-align: center;
-    height: 20px;
+	left: 0;
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+	height: 20px;
 }
 
 #footer p {
@@ -38,15 +38,36 @@ html, body {
 }
 
 .table {
-	margin-left:2%; width:96%;
-}
-
-.filter-input {
-	margin: auto;
-	width: calc(100% - 10px) !important;
+	margin-left: 2%;
+	width: 96%;
 }
 
 .confirmDialog-button {
 	width: 45%;
 	left: 3%;
+}
+
+.filter-input {
+	margin: auto !important;
+	width: calc(100% - 10px) !important;
+}
+
+.ui-column-customfilter {
+	margin: auto !important;
+	width: 100% !important;
+}
+
+.ui-column-customfilter span {
+	margin: auto !important;
+	width: 100% !important;
+}
+
+.ui-column-customfilter span input {
+	margin: auto !important;
+	width: calc(100% - 10px) !important;
+}
+
+.ui-column-customfilter div label {
+	margin: auto !important;
+	width: calc(100% - 10px) !important;
 }
