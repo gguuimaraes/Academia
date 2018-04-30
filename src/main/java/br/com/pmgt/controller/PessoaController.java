@@ -13,6 +13,7 @@ import org.primefaces.PrimeFaces;
 
 import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.repository.PessoaRepository;
+import br.com.pmgt.uteis.Uteis;
 
 @Named(value = "pessoaController")
 @ViewScoped
@@ -56,6 +57,7 @@ public class PessoaController implements Serializable {
 	public void excluir(PessoaModel pessoaModel) {
 		pessoaRepository.excluir(pessoaModel.getCodigo());
 		pessoas.remove(pessoaModel);
+		Uteis.Mensagem("Registro excluído com sucesso!");
 	}
 
 	public void salvar() {
@@ -70,6 +72,7 @@ public class PessoaController implements Serializable {
 		}
 		init();
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
+		Uteis.Mensagem("Registro salvo com sucesso!");
 	}
 	
 

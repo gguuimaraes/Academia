@@ -13,6 +13,7 @@ import org.primefaces.PrimeFaces;
 
 import br.com.pmgt.model.EquipamentoModel;
 import br.com.pmgt.repository.EquipamentoRepository;
+import br.com.pmgt.uteis.Uteis;
 
 @Named(value = "equipamentoController")
 @ViewScoped
@@ -56,6 +57,7 @@ public class EquipamentoController implements Serializable {
 	public void excluir(EquipamentoModel equipamentoModel) {
 		equipamentoRepository.excluir(equipamentoModel.getCodigo());
 		equipamentos.remove(equipamentoModel);
+		Uteis.Mensagem("Registro excluído com sucesso!");
 	}
 
 	public void salvar() {
@@ -70,6 +72,7 @@ public class EquipamentoController implements Serializable {
 		}
 		init();
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
+		Uteis.Mensagem("Registro salvo com sucesso!");
 	}
 	
 
