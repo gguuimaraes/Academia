@@ -38,6 +38,7 @@ public class Pessoa {
 	@Column(name = "sexo")
 	private Sexo sexo;
 
+	//@Pattern(regexp="^[_A-Za-z0-9-\\\\+]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$")
 	@Column(name = "email")
 	private String email;
 

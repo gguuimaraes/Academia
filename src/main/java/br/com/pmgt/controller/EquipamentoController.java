@@ -57,7 +57,7 @@ public class EquipamentoController implements Serializable {
 	public void excluir(EquipamentoModel equipamentoModel) {
 		equipamentoRepository.excluir(equipamentoModel.getCodigo());
 		equipamentos.remove(equipamentoModel);
-		Uteis.Mensagem("Registro excluído com sucesso!");
+		Uteis.MensagemInfo("Registro excluído com sucesso!");
 	}
 
 	public void salvar() {
@@ -72,7 +72,7 @@ public class EquipamentoController implements Serializable {
 		}
 		init();
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
-		Uteis.Mensagem("Registro salvo com sucesso!");
+		Uteis.MensagemInfo("Registro salvo com sucesso!");
 	}
 	
 
