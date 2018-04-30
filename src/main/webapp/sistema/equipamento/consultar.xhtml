@@ -19,73 +19,74 @@
 
 		<p:dialog header="Incluir" id="dialog-modal-incluir"
 			widgetVar="dialog-modal-incluir" modal="true" height="400px"
-			width="550px" onShow="#{pessoaController.resetPessoaModel()}">
+			width="550px">
 			<ui:include src="incluir.xhtml" />
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">
-		
-			<p:commandButton icon="ui-icon-plus" title="Incluir Pessoa"
-				style="left: 2%; margin-bottom: 1%" value="Incluir Pessoa"
-				ajax="true" onclick="PF('dialog-modal-incluir').show();" />
 
-			<p:dataTable id="dataTable-registros" var="pessoa"
-				value="#{pessoaController.pessoas}" rows="15" paginator="true"
-				emptyMessage="Nenhum registro."
+			<p:commandButton icon="ui-icon-plus" title="Incluir Equipamento"
+				style="left: 2%; margin-bottom: 1%" value="Incluir Equipamento"
+				ajax="true" onclick="PF('dialog-modal-incluir').show();" >
+				<p:resetInput target=":dialog-modal-incluir" />
+			</p:commandButton>
+
+			<p:dataTable id="dataTable-registros" var="equipamento"
+				value="#{equipamentoController.equipamentos}" rows="15"
+				paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" styleClass="table">
 
-				<p:column headerText="Código" filterBy="#{pessoa.codigo}"
+				<p:column headerText="Código" filterBy="#{equipamento.codigo}"
 					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.codigo}" />
+					<h:outputText value="#{equipamento.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome" filterBy="#{pessoa.nome}"
+				<p:column headerText="Descrição" filterBy="#{equipamento.descricao}"
 					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.nome}" />
+					<h:outputText value="#{equipamento.descricao}" />
 				</p:column>
 
-				<p:column headerText="Sexo" filterBy="#{pessoa.sexo}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.sexo}" />
+				<p:column headerText="Aquisição"
+					filterBy="#{equipamento.dataAquisicao}" filterMatchMode="equals"
+					filterStyleClass="filter-input">
+					<h:outputText value="#{equipamento.dataAquisicao}">
+						<f:convertDateTime locale="pt_BR" />
+					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Cadastro" filterBy="#{pessoa.dataCadastro}"
-					filterMatchMode="equals" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.dataCadastro}">
+				<p:column headerText="Valor Compra"
+					filterBy="#{equipamento.valorCompra}" filterMatchMode="contains"
+					filterStyleClass="filter-input">
+					<h:outputText value="#{equipamento.valorCompra}" />
+				</p:column>
+
+
+				<p:column headerText="Cadastro"
+					filterBy="#{equipamento.dataCadastro}" filterMatchMode="equals"
+					filterStyleClass="filter-input">
+					<h:outputText value="#{equipamento.dataCadastro}">
 						<f:convertDateTime locale="pt_BR" />
 					</h:outputText>
 
 				</p:column>
 
-				<p:column headerText="Email" filterBy="#{pessoa.email}"
-					filterMatchMode="contains" filterStyleClass="filter-input"
-					style="width:200px;">
-					<h:outputText value="#{pessoa.email}" />
-				</p:column>
-
-				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}"
-					filterMatchMode="contains" filterStyleClass="filter-input"
-					style="width:200px;">
-					<h:outputText value="#{pessoa.endereco}" />
-				</p:column>
-
 				<p:column headerText="Usuário"
-					filterBy="#{pessoa.usuarioCadastro.nome}"
+					filterBy="#{equipamento.usuarioCadastro.nome}"
 					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{pessoa.usuarioCadastro.nome}" />
+					<h:outputText value="#{equipamento.usuarioCadastro.nome}" />
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-pencil" title="Alterar" ajax="true"
-						actionListener="#{pessoaController.setPessoaModel(pessoa)}"
+						actionListener="#{equipamentoController.setEquipamentoModel(equipamento)}"
 						oncomplete="PF('dialog-modal-alterar').show();"
 						update="dialog-modal-alterar" />
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-trash" title="Excluir" ajax="true"
-						actionListener="#{pessoaController.excluir(pessoa)}"
+						actionListener="#{equipamentoController.excluir(equipamento)}"
 						update="@form" />
 				</p:column>
 

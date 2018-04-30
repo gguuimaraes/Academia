@@ -7,7 +7,7 @@
 	<h:form>
 
 		<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
-			<p:outputLabel value="Código" for="inputText-nome" />
+			<p:outputLabel value="Código" for="inputText-codigo" />
 			<p:inputText id="inputText-codigo"
 				value="#{pessoaController.pessoaModel.codigo}"
 				style="width:50px" readonly="true" />
@@ -55,11 +55,11 @@
 
 		</h:panelGrid>
 
-		<p:messages showDetail="true" autoUpdate="true" closable="true"
-			severity="warn" />
-		<p:messages autoUpdate="true" closable="true" severity="error" />
-		<p:messages showDetail="true" autoUpdate="true" closable="true"
-			severity="info" />
+		<p:messages showDetail="true" closable="true" severity="warn"
+			autoUpdate="true" />
+		<p:messages closable="true" severity="error" autoUpdate="true" />
+		<p:messages showDetail="true" closable="true" severity="info"
+			autoUpdate="true" />
 	</h:form>
 
 </ui:composition>

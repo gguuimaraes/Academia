@@ -19,15 +19,17 @@
 
 		<p:dialog header="Incluir" id="dialog-modal-incluir"
 			widgetVar="dialog-modal-incluir" modal="true" height="400px"
-			width="550px" onShow="#{pessoaController.resetPessoaModel()}">
+			width="550px">
 			<ui:include src="incluir.xhtml" />
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">
-		
+
 			<p:commandButton icon="ui-icon-plus" title="Incluir Pessoa"
 				style="left: 2%; margin-bottom: 1%" value="Incluir Pessoa"
-				ajax="true" onclick="PF('dialog-modal-incluir').show();" />
+				ajax="true" onclick="PF('dialog-modal-incluir').show();">
+				<p:resetInput target=":dialog-modal-incluir" />
+			</p:commandButton>
 
 			<p:dataTable id="dataTable-registros" var="pessoa"
 				value="#{pessoaController.pessoas}" rows="15" paginator="true"

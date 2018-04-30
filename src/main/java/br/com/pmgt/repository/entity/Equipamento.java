@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 
 @NamedQueries({
 
-		@NamedQuery(name = "Equipamento.findAll", query = "SELECT p FROM Equipamento p")
+		@NamedQuery(name = "Equipamento.findAll", query = "SELECT e FROM Equipamento e")
 
 })
 public class Equipamento {
@@ -41,7 +41,7 @@ public class Equipamento {
 	private Float valorCompra;
 
 	@Column(name = "dataCadastro")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
 	
 	@OneToOne

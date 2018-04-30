@@ -9,7 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.repository.PessoaRepository;
@@ -48,10 +48,6 @@ public class PessoaController implements Serializable {
 		this.pessoaModel = pessoaModel;
 	}
 	
-	public void resetPessoaModel() {
-		this.pessoaModel = new PessoaModel();
-	}
-
 	@PostConstruct
 	public void init() {
 		pessoas = pessoaRepository.listar();
@@ -67,13 +63,14 @@ public class PessoaController implements Serializable {
 		if (pessoaModel.getCodigo() == null) {
 			pessoaModel.setUsuarioCadastro(usuarioController.GetUsuarioSession());
 			pessoaRepository.incluir(pessoaModel);
-			pessoaModel = null;	
+			pessoaModel = new PessoaModel();
 		} else {
 			operacao = "alterar";
 			pessoaRepository.alterar(pessoaModel);
 		}
 		init();
-		RequestContext.getCurrentInstance().execute("PF('dialog-modal-" + operacao + "').hide();");
+		PrimeFaces.current().resetInputs("form-cadastro");
+		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 	}
 	
 

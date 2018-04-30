@@ -10,6 +10,13 @@ public class UsuarioModel implements Serializable {
 	private String nome;
 	private String senha;
 
+	public UsuarioModel() {
+	}
+	
+	public UsuarioModel(String nome) {
+		this.nome = nome;
+	}
+
 	public Integer getCodigo() {
 		return codigo;
 	}

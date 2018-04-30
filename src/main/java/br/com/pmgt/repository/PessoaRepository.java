@@ -22,50 +22,28 @@ public class PessoaRepository {
 
 	EntityManager entityManager;
 
-	/***
-	 * MÉTODO RESPONSÁVEL POR SALVAR UMA NOVA PESSOA
-	 * 
-	 * @param pessoaModel
-	 */
 	public void incluir(PessoaModel pessoaModel) {
-
 		entityManager = Uteis.JpaEntityManager();
-
+		
 		pessoa = new Pessoa();
-		pessoa.setDataCadastro(new Date());
-		pessoa.setEmail(pessoaModel.getEmail());
-		pessoa.setEndereco(pessoaModel.getEndereco());
 		pessoa.setNome(pessoaModel.getNome());
 		pessoa.setSexo(pessoaModel.getSexo());
-
-		Usuario usuarioCadastro = entityManager.find(Usuario.class, pessoaModel.getUsuarioCadastro().getCodigo());
-
-		pessoa.setUsuarioCadastro(usuarioCadastro);
-
+		pessoa.setEmail(pessoaModel.getEmail());
+		pessoa.setEndereco(pessoaModel.getEndereco());
+		pessoa.setDataCadastro(new Date());
+		pessoa.setUsuarioCadastro(entityManager.find(Usuario.class, pessoaModel.getUsuarioCadastro().getCodigo()));
 		entityManager.persist(pessoa);
-
 	}
 
-	/***
-	 * MÉTODO PARA CONSULTAR A PESSOA
-	 * 
-	 * @return
-	 */
 	public List<PessoaModel> listar() {
-
-		List<PessoaModel> pessoasModel = new ArrayList<PessoaModel>();
-
 		entityManager = Uteis.JpaEntityManager();
-
+		
+		List<PessoaModel> pessoasModel = new ArrayList<PessoaModel>();
 		Query query = entityManager.createNamedQuery("Pessoa.findAll");
-
 		@SuppressWarnings("unchecked")
 		Collection<Pessoa> pessoas = (Collection<Pessoa>) query.getResultList();
-
 		PessoaModel pessoaModel = null;
-
 		for (Pessoa pessoa : pessoas) {
-
 			pessoaModel = new PessoaModel();
 			pessoaModel.setCodigo(pessoa.getCodigo());
 			pessoaModel.setDataCadastro(pessoa.getDataCadastro());
@@ -73,64 +51,32 @@ public class PessoaRepository {
 			pessoaModel.setEndereco(pessoa.getEndereco());
 			pessoaModel.setNome(pessoa.getNome());
 			pessoaModel.setSexo(pessoa.getSexo());
-
-			Usuario usuarioCadastro = pessoa.getUsuarioCadastro();
-
-			UsuarioModel usuarioModel = new UsuarioModel();
-			usuarioModel.setNome(usuarioCadastro.getNome());
-
-			pessoaModel.setUsuarioCadastro(usuarioModel);
-
+			pessoaModel.setUsuarioCadastro(new UsuarioModel(pessoa.getUsuarioCadastro().getNome()));
 			pessoasModel.add(pessoaModel);
 		}
-
 		return pessoasModel;
-
 	}
 
-	/***
-	 * CONSULTA UMA PESSOA CADASTRADA PELO CÓDIGO
-	 * 
-	 * @param codigo
-	 * @return
-	 */
 	private Pessoa consultar(int codigo) {
-
 		entityManager = Uteis.JpaEntityManager();
-
+		
 		return entityManager.find(Pessoa.class, codigo);
 	}
 
-	/***
-	 * ALTERA UM REGISTRO CADASTRADO NO BANCO DE DADOS
-	 * 
-	 * @param pessoaModel
-	 */
 	public void alterar(PessoaModel pessoaModel) {
-
 		entityManager = Uteis.JpaEntityManager();
-
-		Pessoa pessoaEntity = this.consultar(pessoaModel.getCodigo());
-
+		
+		Pessoa pessoaEntity = consultar(pessoaModel.getCodigo());
 		pessoaEntity.setEmail(pessoaModel.getEmail());
 		pessoaEntity.setEndereco(pessoaModel.getEndereco());
 		pessoaEntity.setNome(pessoaModel.getNome());
 		pessoaEntity.setSexo(pessoaModel.getSexo());
-
 		entityManager.merge(pessoaEntity);
 	}
 
-	/***
-	 * EXCLUI UM REGISTRO DO BANCO DE DADOS
-	 * 
-	 * @param codigo
-	 */
 	public void excluir(int codigo) {
-
 		entityManager = Uteis.JpaEntityManager();
-
-		Pessoa pessoaEntity = this.consultar(codigo);
-
-		entityManager.remove(pessoaEntity);
+		
+		entityManager.remove(consultar(codigo));
 	}
 }
