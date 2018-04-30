@@ -1,81 +1,77 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/template/layoutBase.xhtml">
 
 	<ui:define name="content">
 
-		<p:dialog header="Alterar" id="dialog-modal-alterar"
-			widgetVar="dialog-modal-alterar" modal="true" height="400px"
-			width="550px">
-			<ui:include src="alterar.xhtml"/>
-			<p:ajax event="close" update="dialog-modal-alterar"/>
+		<p:dialog header="Alterar" id="dialog-modal-alterar" widgetVar="dialog-modal-alterar" modal="true">
+			<ui:include src="alterar.xhtml" />
+			<p:ajax event="close" update="dialog-modal-alterar" />
 		</p:dialog>
 
-		<p:dialog header="Incluir" id="dialog-modal-incluir"
-			widgetVar="dialog-modal-incluir" modal="true" height="400px"
-			width="550px">
+		<p:dialog header="Incluir" id="dialog-modal-incluir" widgetVar="dialog-modal-incluir" modal="true">
 			<ui:include src="incluir.xhtml" />
-			<p:ajax event="close" update="dialog-modal-incluir"/>
+			<p:ajax event="close" update="dialog-modal-incluir" />
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">
 
-			<p:commandButton icon="ui-icon-plus" title="Incluir Pessoa"
-				style="left: 2%; margin-bottom: 1%" value="Incluir Pessoa"
-				ajax="true" onclick="PF('dialog-modal-incluir').show();">
+			<p:confirmDialog closable="false" global="true" showEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes confirmDialog-button" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no confirmDialog-button"
+					icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<p:commandButton icon="ui-icon-plus" title="Incluir Pessoa" style="left: 2%; margin-bottom: 1%"
+				value="Incluir Pessoa" ajax="true" onclick="PF('dialog-modal-incluir').show();">
 				<p:resetInput target=":dialog-modal-incluir" />
 			</p:commandButton>
 
-			<p:dataTable id="dataTable-registros" var="pessoa"
-				value="#{pessoaController.pessoas}" rows="15" paginator="true"
-				emptyMessage="Nenhum registro."
+			<p:dataTable id="dataTable-registros" var="pessoa" value="#{pessoaController.pessoas}" rows="15"
+				paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" styleClass="table">
 
-				<p:column headerText="Código" filterBy="#{pessoa.codigo}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
+				<p:column headerText="Código" filterBy="#{pessoa.codigo}" filterMatchMode="contains"
+					filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.codigo}" />
 				</p:column>
 
-				<p:column headerText="Nome" filterBy="#{pessoa.nome}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
+				<p:column headerText="Nome" filterBy="#{pessoa.nome}" filterMatchMode="contains"
+					filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.nome}" />
 				</p:column>
 
-				<p:column headerText="Sexo" filterBy="#{pessoa.sexo}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
+				<p:column headerText="Sexo" filterBy="#{pessoa.sexo}" filterMatchMode="contains"
+					filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.sexo}" />
 				</p:column>
 
-				<p:column headerText="Cadastro" filterBy="#{pessoa.dataCadastro}"
-					filterMatchMode="equals" filterStyleClass="filter-input">
+				<p:column headerText="Cadastro" filterBy="#{pessoa.dataCadastro}" filterMatchMode="equals"
+					filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.dataCadastro}">
 						<f:convertDateTime locale="pt_BR" />
 					</h:outputText>
 
 				</p:column>
 
-				<p:column headerText="Email" filterBy="#{pessoa.email}"
-					filterMatchMode="contains" filterStyleClass="filter-input"
-					style="width:200px;">
+				<p:column headerText="Email" filterBy="#{pessoa.email}" filterMatchMode="contains"
+					filterStyleClass="filter-input" style="width:200px;">
 					<h:outputText value="#{pessoa.email}" />
 				</p:column>
 
-				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}"
-					filterMatchMode="contains" filterStyleClass="filter-input"
-					style="width:200px;">
+				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}" filterMatchMode="contains"
+					filterStyleClass="filter-input" style="width:200px;">
 					<h:outputText value="#{pessoa.endereco}" />
 				</p:column>
 
-				<p:column headerText="Usuário"
-					filterBy="#{pessoa.usuarioCadastro.nome}"
+				<p:column headerText="Usuário" filterBy="#{pessoa.usuarioCadastro.nome}"
 					filterMatchMode="contains" filterStyleClass="filter-input">
 					<h:outputText value="#{pessoa.usuarioCadastro.nome}" />
 				</p:column>
@@ -83,14 +79,14 @@
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-pencil" title="Alterar" ajax="true"
 						actionListener="#{pessoaController.setPessoaModel(pessoa)}"
-						oncomplete="PF('dialog-modal-alterar').show();"
-						update="dialog-modal-alterar" />
+						oncomplete="PF('dialog-modal-alterar').show();" update="dialog-modal-alterar" />
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-trash" title="Excluir" ajax="true"
-						actionListener="#{pessoaController.excluir(pessoa)}"
-						update="@form" />
+						actionListener="#{pessoaController.excluir(pessoa)}" update="@form">
+						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
+					</p:commandButton>
 				</p:column>
 
 			</p:dataTable>

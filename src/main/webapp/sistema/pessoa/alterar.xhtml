@@ -1,65 +1,50 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form>
 
 		<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
 			<p:outputLabel value="Código" for="inputText-codigo" />
-			<p:inputText id="inputText-codigo"
-				value="#{pessoaController.pessoaModel.codigo}"
+			<p:inputText id="inputText-codigo" value="#{pessoaController.pessoaModel.codigo}"
 				style="width:50px" readonly="true" />
 
 			<p:outputLabel value="Nome" for="inputText-nome" />
 			<p:inputText id="inputText-nome" style="width:300px" maxlength="70"
-				value="#{pessoaController.pessoaModel.nome}"
-				required="true"
+				value="#{pessoaController.pessoaModel.nome}" required="true"
 				requiredMessage="O nome é de preenchimento obrigatório" />
 
 			<p:outputLabel for="selectOneRadio-sexo" value="Sexo:" />
-			<p:selectOneRadio id="selectOneRadio-sexo"
-				value="#{pessoaController.pessoaModel.sexo}"
-				required="true"
-				requiredMessage="O sexo é de preenchimento obrigatório">
+			<p:selectOneRadio id="selectOneRadio-sexo" value="#{pessoaController.pessoaModel.sexo}"
+				required="true" requiredMessage="O sexo é de preenchimento obrigatório">
 
 				<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
 			</p:selectOneRadio>
 
 			<p:outputLabel value="E-mail" for="inputText-email" />
 			<p:inputText id="inputText-email" style="width:300px" maxlength="80"
-				value="#{pessoaController.pessoaModel.email}"
-				required="true"
+				value="#{pessoaController.pessoaModel.email}" required="true"
 				requiredMessage="O email é de preenchimento obrigatório" />
 
 			<p:outputLabel value="Endereço" for="inputText-endereco" />
-			<p:inputText id="inputText-endereco" style="width:400px"
-				maxlength="200"
-				value="#{pessoaController.pessoaModel.endereco}"
-				required="true"
+			<p:inputText id="inputText-endereco" style="width:400px" maxlength="200"
+				value="#{pessoaController.pessoaModel.endereco}" required="true"
 				requiredMessage="O endereço é de preenchimento obrigatório" />
 
 			<p:spacer />
 			<p:column>
-				<p:commandButton value="Alterar" id="commandButton-alterar"
-					icon="ui-icon-gear"
-					actionListener="#{pessoaController.salvar}"
-					update="form-consulta" />
+				<p:commandButton value="Salvar" id="commandButton-salvar" icon="ui-icon-gear"
+					actionListener="#{pessoaController.salvar}" update="form-consulta" />
 
-				<p:commandButton value="Cancelar" id="commandButton-cancelar"
-					icon="ui-icon-close"
-					actionListener="#{pessoaController.init}"
-					onclick="PF('dialog-modal-alterar').hide();" />
+				<p:commandButton value="Cancelar" id="commandButton-cancelar" icon="ui-icon-close"
+					actionListener="#{pessoaController.init}" onclick="PF('dialog-modal-alterar').hide();" />
 			</p:column>
 
 		</h:panelGrid>
 
-		<p:messages showDetail="true" closable="true" severity="warn"
-			autoUpdate="true" />
+		<p:messages showDetail="true" closable="true" severity="warn" autoUpdate="true" />
 		<p:messages closable="true" severity="error" autoUpdate="true" />
-		<p:messages showDetail="true" closable="true" severity="info"
-			autoUpdate="true" />
+		<p:messages showDetail="true" closable="true" severity="info" autoUpdate="true" />
 	</h:form>
 
 </ui:composition>

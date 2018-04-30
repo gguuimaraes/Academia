@@ -1,59 +1,45 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form>
 
 		<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
 			<p:outputLabel value="Código" for="inputText-codigo" />
-			<p:inputText id="inputText-codigo"
-				value="#{equipamentoController.equipamentoModel.codigo}"
+			<p:inputText id="inputText-codigo" value="#{equipamentoController.equipamentoModel.codigo}"
 				style="width:50px" readonly="true" />
 
 			<p:outputLabel value="Descrição" for="inputText-descricao" />
-			<p:inputText id="inputText-descricao" style="width:300px"
-				maxlength="70"
-				value="#{equipamentoController.equipamentoModel.descricao}"
-				required="true"
+			<p:inputText id="inputText-descricao" style="width:300px" maxlength="70"
+				value="#{equipamentoController.equipamentoModel.descricao}" required="true"
 				requiredMessage="A descrição é de preenchimento obrigatório" />
 
 			<p:outputLabel value="Data Aquisição" for="calendar-dataAquisicao" />
 			<p:calendar id="calendar-dataAquisicao"
-				value="#{equipamentoController.equipamentoModel.dataAquisicao}"
-				pattern="dd/MM/yyyy" required="true"
-				requiredMessage="A data de aquisição é de preenchimento obrigatório"
-				mask="true" />
+				value="#{equipamentoController.equipamentoModel.dataAquisicao}" pattern="dd/MM/yyyy"
+				required="true" requiredMessage="A data de aquisição é de preenchimento obrigatório" mask="true" />
 
 			<p:outputLabel value="Valor Compra" for="inputNumber-valorCompra" />
-			<p:inputNumber id="inputNumber-valorCompra" thousandSeparator=""
-				decimalSeparator=","
-				value="#{equipamentoController.equipamentoModel.valorCompra}"
-				required="true"
+			<p:inputNumber id="inputNumber-valorCompra" thousandSeparator="" decimalSeparator=","
+				value="#{equipamentoController.equipamentoModel.valorCompra}" required="true"
 				requiredMessage="O valor de compra é de preenchimento obrigatório">
-			</p:inputNumber> 
+			</p:inputNumber>
 
 			<p:spacer />
 
 			<p:column>
-				<p:commandButton value="Alterar" id="commandButton-alterar"
-					icon="ui-icon-gear"
-					actionListener="#{equipamentoController.salvar}"
-					update="form-consulta" />
+				<p:commandButton value="Salvar" id="commandButton-salvar" icon="ui-icon-gear"
+					actionListener="#{equipamentoController.salvar}" update="form-consulta" />
 
-				<p:commandButton value="Cancelar" id="commandButton-cancelar"
-					icon="ui-icon-close" actionListener="#{equipamentoController.init}"
-					onclick="PF('dialog-modal-alterar').hide();" />
+				<p:commandButton value="Cancelar" id="commandButton-cancelar" icon="ui-icon-close"
+					actionListener="#{equipamentoController.init}" onclick="PF('dialog-modal-alterar').hide();" />
 			</p:column>
 
 		</h:panelGrid>
 
-		<p:messages showDetail="true" closable="true" severity="warn"
-			autoUpdate="true" />
+		<p:messages showDetail="true" closable="true" severity="warn" autoUpdate="true" />
 		<p:messages closable="true" severity="error" autoUpdate="true" />
-		<p:messages showDetail="true" closable="true" severity="info"
-			autoUpdate="true" />
+		<p:messages showDetail="true" closable="true" severity="info" autoUpdate="true" />
 	</h:form>
 
 </ui:composition>

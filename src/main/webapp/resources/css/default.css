@@ -45,3 +45,8 @@ html, body {
 	margin: auto;
 	width: calc(100% - 10px) !important;
 }
+
+.confirmDialog-button {
+	width: 45%;
+	left: 3%;
+}
