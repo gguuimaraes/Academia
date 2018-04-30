@@ -14,13 +14,15 @@
 		<p:dialog header="Alterar" id="dialog-modal-alterar"
 			widgetVar="dialog-modal-alterar" modal="true" height="400px"
 			width="550px">
-			<ui:include src="alterar.xhtml" />
+			<ui:include src="alterar.xhtml"/>
+			<p:ajax event="close" update="dialog-modal-alterar"/>
 		</p:dialog>
 
 		<p:dialog header="Incluir" id="dialog-modal-incluir"
 			widgetVar="dialog-modal-incluir" modal="true" height="400px"
 			width="550px">
 			<ui:include src="incluir.xhtml" />
+			<p:ajax event="close" update="dialog-modal-incluir"/>
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">

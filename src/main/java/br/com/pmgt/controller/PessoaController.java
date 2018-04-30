@@ -69,7 +69,6 @@ public class PessoaController implements Serializable {
 			pessoaRepository.alterar(pessoaModel);
 		}
 		init();
-		PrimeFaces.current().resetInputs("form-cadastro");
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 	}
 	

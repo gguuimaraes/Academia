@@ -69,7 +69,6 @@ public class EquipamentoController implements Serializable {
 			equipamentoRepository.alterar(equipamentoModel);
 		}
 		init();
-		PrimeFaces.current().resetInputs("form-cadastro");
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 	}
 	
