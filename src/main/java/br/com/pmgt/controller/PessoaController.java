@@ -1,7 +1,10 @@
 package br.com.pmgt.controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
@@ -48,7 +51,7 @@ public class PessoaController implements Serializable {
 	public void setPessoaModel(PessoaModel pessoaModel) {
 		this.pessoaModel = pessoaModel;
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		pessoas = pessoaRepository.listar();
@@ -73,6 +76,17 @@ public class PessoaController implements Serializable {
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
 	}
-	
 
+	public boolean filterByDate(Object value, Object filter, Locale locale) {
+		if (filter == null) {
+			return true;
+		}
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
+	}
 }

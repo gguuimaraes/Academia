@@ -1,20 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/template/layoutBase.xhtml">
 
 	<ui:define name="content">
 
-		<p:dialog header="Alterar" id="dialog-modal-alterar" widgetVar="dialog-modal-alterar" modal="true">
+		<p:dialog header="Alterar" id="dialog-modal-alterar"
+			widgetVar="dialog-modal-alterar" modal="true">
 			<ui:include src="alterar.xhtml" />
 			<p:ajax event="close" update="dialog-modal-alterar" />
 		</p:dialog>
 
-		<p:dialog header="Incluir" id="dialog-modal-incluir" widgetVar="dialog-modal-incluir" modal="true">
+		<p:dialog header="Incluir" id="dialog-modal-incluir"
+			widgetVar="dialog-modal-incluir" modal="true">
 			<ui:include src="incluir.xhtml" />
 			<p:ajax event="close" update="dialog-modal-incluir" />
 		</p:dialog>
@@ -25,63 +29,100 @@
 
 			<p:confirmDialog closable="false" global="true" showEffect="fade">
 				<p:commandButton value="Sim" type="button"
-					styleClass="ui-confirmdialog-yes confirmDialog-button" icon="ui-icon-check" />
-				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no confirmDialog-button"
+					styleClass="ui-confirmdialog-yes confirmDialog-button"
+					icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no confirmDialog-button"
 					icon="ui-icon-close" />
 			</p:confirmDialog>
 
 			<p:commandButton icon="ui-icon-plus" title="Incluir Equipamento"
-				style="left: 2%; margin-bottom: 1%" value="Incluir Equipamento" ajax="true"
-				onclick="PF('dialog-modal-incluir').show();">
+				style="left: 2%; margin-bottom: 1%" value="Incluir Equipamento"
+				ajax="true" onclick="PF('dialog-modal-incluir').show();">
 				<p:resetInput target=":dialog-modal-incluir" />
 			</p:commandButton>
 
-			<p:dataTable id="dataTable-registros" var="equipamento"
-				value="#{equipamentoController.equipamentos}" rows="15" paginator="true"
-				emptyMessage="Nenhum registro."
+			<p:dataTable id="dataTable-registros" widgetVar="dataTable-registros"
+				var="equipamento" value="#{equipamentoController.equipamentos}"
+				rows="15" paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15" styleClass="table">
+				rowsPerPageTemplate="5,10,15" styleClass="table"
+				currentPageReportTemplate="({startRecord} até {endRecord}))">
 
-				<p:column headerText="Código" filterBy="#{equipamento.codigo}" filterMatchMode="contains"
+				<p:column headerText="Código" filterBy="#{equipamento.codigo}"
+					sortBy="#{equipamento.codigo}" filterMatchMode="contains"
 					filterStyleClass="filter-input">
 					<h:outputText value="#{equipamento.codigo}" />
 				</p:column>
 
-				<p:column headerText="Descrição" filterBy="#{equipamento.descricao}" filterMatchMode="contains"
-					filterStyleClass="filter-input">
+				<p:column headerText="Descrição" filterBy="#{equipamento.descricao}"
+					sortBy="#{equipamento.descricao}" filterMatchMode="contains"
+					filterStyleClass="filter-input" style="width: 350px">
 					<h:outputText value="#{equipamento.descricao}" />
 				</p:column>
 
-				<p:column headerText="Data Aquisição" filterBy="#{equipamento.dataAquisicao}"
-					filterStyleClass="filter-input">
+				<p:column headerText="Data Aquisição"
+					filterBy="#{equipamento.dataAquisicao}"
+					filterFunction="#{equipamentoController.filterByDate}"
+					sortBy="#{equipamento.dataAquisicao}">
+					<f:facet name="filter">
+						<p:calendar mask="true" pattern="dd/MM/yyyy"
+							inputStyleClass="filter-calendar">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('dataTable-registros').filter()"
+								update="dataTable-registros" />
+							<p:ajax event="change" execute="@this"
+								oncomplete="PF('dataTable-registros').filter()"
+								update="dataTable-registros" />
+						</p:calendar>
+					</f:facet>
 					<h:outputText value="#{equipamento.dataAquisicao}">
-						<f:convertDateTime locale="pt_BR" />
+						<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 
-				<p:column headerText="Valor Compra" filterBy="#{equipamento.valorCompra}"
-					filterMatchMode="contains" filterStyleClass="filter-input">
-					<h:outputText value="#{equipamento.valorCompra}" />
-				</p:column>
-
-				<p:column headerText="Data Cadastro" filterBy="#{equipamento.dataCadastro}"
+				<p:column headerText="Valor Compra"
+					filterBy="#{equipamento.valorCompra}"
+					sortBy="#{equipamento.valorCompra}" filterMatchMode="contains"
 					filterStyleClass="filter-input">
-					<h:outputText value="#{equipamento.dataCadastro}">
-						<f:convertDateTime locale="pt_BR" />
+					<h:outputText value="#{equipamento.valorCompra}">
+						<f:convertNumber pattern="R$ #,##0.00"></f:convertNumber>
 					</h:outputText>
+				</p:column>
 
+				<p:column headerText="Data Cadastro"
+					filterBy="#{equipamento.dataCadastro}"
+					filterFunction="#{equipamentoController.filterByDate}"
+					sortBy="#{equipamento.dataCadastro}">
+					<f:facet name="filter">
+						<p:calendar mask="true" pattern="dd/MM/yyyy"
+							inputStyleClass="filter-calendar">
+							<p:ajax event="dateSelect"
+								oncomplete="PF('dataTable-registros').filter()"
+								update="dataTable-registros" />
+							<p:ajax event="change" execute="@this"
+								oncomplete="PF('dataTable-registros').filter()"
+								update="dataTable-registros" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{equipamento.dataCadastro}">
+						<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+					</h:outputText>
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-pencil" title="Alterar" ajax="true"
 						actionListener="#{equipamentoController.setEquipamentoModel(equipamento)}"
-						oncomplete="PF('dialog-modal-alterar').show();" update="dialog-modal-alterar" />
+						oncomplete="PF('dialog-modal-alterar').show();"
+						update="dialog-modal-alterar" />
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-trash" title="Excluir" ajax="true"
-						actionListener="#{equipamentoController.excluir(equipamento)}" update="@form">
-						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
+						actionListener="#{equipamentoController.excluir(equipamento)}"
+						update="@form">
+						<p:confirm header="Confirmação" message="Deseja mesmo excluir?"
+							icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>
 

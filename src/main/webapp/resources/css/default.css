@@ -49,10 +49,20 @@ html, body {
 
 .filter-input {
 	margin: auto !important;
+	width: 100% !important;
+}
+
+.filter-combo {
+	margin: auto !important;
+	width: calc(100% - 24px) !important;
+}
+
+.filter-calendar {
+	margin: auto !important;
 	width: calc(100% - 10px) !important;
 }
 
-.ui-column-customfilter {
+/* .ui-column-customfilter {
 	margin: auto !important;
 	width: 100% !important;
 }
@@ -70,4 +80,4 @@ html, body {
 .ui-column-customfilter div label {
 	margin: auto !important;
 	width: calc(100% - 10px) !important;
-}
+} */
