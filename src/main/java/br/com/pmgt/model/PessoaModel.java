@@ -11,7 +11,7 @@ public class PessoaModel {
 	private Sexo sexo = Sexo.MASCULINO;
 	private String email;
 	private String endereco;
-	private UsuarioModel usuario = null;
+	private UsuarioModel usuarioModel = null;
 	private Date dataCadastro;
 
 	public Integer getCodigo() {
@@ -54,16 +54,16 @@ public class PessoaModel {
 		this.endereco = endereco;
 	}
 
-	public UsuarioModel getUsuario() {
-		return usuario;
+	public UsuarioModel getUsuarioModel() {
+		return usuarioModel;
 	}
 
-	public void setUsuario(UsuarioModel usuario) {
-		this.usuario = usuario;
+	public void setUsuarioModel(UsuarioModel usuarioModel) {
+		this.usuarioModel = usuarioModel;
 	}
 
 	public boolean temUsuario() {
-		return usuario != null;
+		return usuarioModel != null;
 	}
 
 	public Date getDataCadastro() {

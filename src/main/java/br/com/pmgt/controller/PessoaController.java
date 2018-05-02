@@ -13,9 +13,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.tabview.TabView;
 
 import br.com.pmgt.model.PessoaModel;
+import br.com.pmgt.model.UsuarioModel;
 import br.com.pmgt.repository.PessoaRepository;
+import br.com.pmgt.repository.UsuarioRepository;
 import br.com.pmgt.uteis.Uteis;
 
 @Named(value = "pessoaController")
@@ -24,17 +27,29 @@ public class PessoaController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Produces
+	private List<PessoaModel> pessoas;
+
 	@Inject
 	transient private PessoaModel pessoaModel;
 
-	@Produces
-	private List<PessoaModel> pessoas;
+
+	
+	public boolean isExcluirUsuario() {
+		return excluirUsuario;
+	}
+
+	public void setExcluirUsuario(boolean excluirUsuario) {
+		this.excluirUsuario = excluirUsuario;
+	}
+
+	private boolean excluirUsuario = false;
 
 	@Inject
 	transient private PessoaRepository pessoaRepository;
 
 	@Inject
-	UsuarioController usuarioController;
+	transient private UsuarioRepository usuarioRepository;
 
 	public List<PessoaModel> getPessoas() {
 		return pessoas;
@@ -64,17 +79,44 @@ public class PessoaController implements Serializable {
 	}
 
 	public void salvar() {
+		if (pessoaModel.getUsuarioModel() != null) {
+			if (pessoaModel.getUsuarioModel().getCodigo() == null) {
+				// significa que incluiu o usuario
+				usuarioRepository.incluir(pessoaModel.getUsuarioModel());
+			} else {
+				// significa que alterou o usuario
+				usuarioRepository.alterar(pessoaModel.getUsuarioModel());
+			}
+		}
+
 		String operacao = "incluir";
 		if (pessoaModel.getCodigo() == null) {
 			pessoaRepository.incluir(pessoaModel);
 			pessoaModel = new PessoaModel();
 		} else {
 			operacao = "alterar";
+			UsuarioModel usuarioModel = pessoaModel.getUsuarioModel();
+			if (excluirUsuario) {
+				pessoaModel.setUsuarioModel(null);
+			}
 			pessoaRepository.alterar(pessoaModel);
+
+			if (excluirUsuario) {
+				usuarioRepository.excluir(usuarioModel.getCodigo());
+			}
 		}
 		init();
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
+	}
+
+	public void incluirUsuario() {
+		pessoaModel.setUsuarioModel(new UsuarioModel());
+		excluirUsuario = false;
+	}
+
+	public void excluirUsuario() {
+		excluirUsuario = true;
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {

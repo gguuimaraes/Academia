@@ -46,7 +46,7 @@ public class Pessoa {
 	private String endereco;
 
 	@OneToOne
-	@JoinColumn(name = "idUsuario")
+	@JoinColumn(name = "codUsuario")
 	private Usuario usuario;
 
 	@Column(name = "dataCadastro")

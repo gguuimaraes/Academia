@@ -50,7 +50,7 @@ public class PessoaRepository {
 			pessoaModel.setSexo(pessoa.getSexo());
 			pessoaModel.setEmail(pessoa.getEmail());
 			pessoaModel.setEndereco(pessoa.getEndereco());
-			pessoaModel.setUsuario(
+			pessoaModel.setUsuarioModel(
 					pessoa.getUsuario() != null
 							? new UsuarioModel(pessoa.getUsuario().getCodigo(), pessoa.getUsuario().getNome(),
 									pessoa.getUsuario().getSenha())
@@ -75,7 +75,7 @@ public class PessoaRepository {
 		pessoa.setSexo(pessoaModel.getSexo());
 		pessoa.setEmail(pessoaModel.getEmail());
 		pessoa.setEndereco(pessoaModel.getEndereco());
-		pessoa.setUsuario(entityManager.find(Usuario.class, pessoaModel.getUsuario().getCodigo()));
+		pessoa.setUsuario(pessoaModel.getUsuarioModel() == null ? null : entityManager.find(Usuario.class, pessoaModel.getUsuarioModel().getCodigo()));
 		entityManager.merge(pessoa);
 	}
 

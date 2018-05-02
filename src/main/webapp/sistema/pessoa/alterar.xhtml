@@ -3,49 +3,85 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="form-alterar">
-	
+
 		<p:messages id="messages" showDetail="true" closable="true" showSummary="false">
 			<p:autoUpdate />
 		</p:messages>
 
-		<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
-			<p:outputLabel value="Código" for="inputText-codigo" />
-			<p:inputText id="inputText-codigo" value="#{pessoaController.pessoaModel.codigo}"
-				style="width:50px" readonly="true" />
+		<p:tabView id="tabView-pessoa">
+			<p:tab title="Pessoa" id="tab-pessoa">
+				<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
+					<p:outputLabel value="Código" for="inputText-codigo" />
+					<p:inputText id="inputText-codigo" value="#{pessoaController.pessoaModel.codigo}"
+						style="width:50px" readonly="true" />
 
-			<p:outputLabel value="Nome" for="inputText-nome" />
-			<p:inputText id="inputText-nome" style="width:300px" maxlength="70"
-				value="#{pessoaController.pessoaModel.nome}" required="true"
-				requiredMessage="O nome é obrigatório." />
+					<p:outputLabel value="Nome" for="inputText-nome" />
+					<p:inputText id="inputText-nome" style="width:300px" maxlength="70"
+						value="#{pessoaController.pessoaModel.nome}" required="true"
+						requiredMessage="O nome é obrigatório." />
 
-			<p:outputLabel for="selectOneRadio-sexo" value="Sexo:" />
-			<p:selectOneRadio id="selectOneRadio-sexo" value="#{pessoaController.pessoaModel.sexo}"
-				required="true" requiredMessage="O sexo é obrigatório.">
+					<p:outputLabel for="selectOneRadio-sexo" value="Sexo:" />
+					<p:selectOneRadio id="selectOneRadio-sexo" value="#{pessoaController.pessoaModel.sexo}"
+						required="true" requiredMessage="O sexo é obrigatório.">
 
-				<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
-			</p:selectOneRadio>
+						<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
+					</p:selectOneRadio>
 
-			<p:outputLabel value="E-mail" for="inputText-email" />
-			<p:inputText id="inputText-email" style="width:300px" maxlength="80"
-				value="#{pessoaController.pessoaModel.email}" required="true"
-				requiredMessage="O email é obrigatório." />
+					<p:outputLabel value="E-mail" for="inputText-email" />
+					<p:inputText id="inputText-email" style="width:300px" maxlength="80"
+						value="#{pessoaController.pessoaModel.email}" required="true"
+						requiredMessage="O email é obrigatório." />
 
-			<p:outputLabel value="Endereço" for="inputText-endereco" />
-			<p:inputText id="inputText-endereco" style="width:400px" maxlength="200"
-				value="#{pessoaController.pessoaModel.endereco}" required="true"
-				requiredMessage="O endereço é obrigatório." />
+					<p:outputLabel value="Endereço" for="inputText-endereco" />
+					<p:inputText id="inputText-endereco" style="width:400px" maxlength="200"
+						value="#{pessoaController.pessoaModel.endereco}" required="true"
+						requiredMessage="O endereço é obrigatório." />
 
-			<p:spacer />
-			<p:column>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Usuário" id="tab-usuario">
+				<p:outputLabel rendered="#{pessoaController.pessoaModel.usuarioModel == null || pessoaController.excluirUsuario == true}">Não há Usuário para esta Pessoa.</p:outputLabel>
+				<h:panelGrid id="panelGrid-campos-form-usuario" columns="2" cellpadding="10"
+					rendered="#{pessoaController.pessoaModel.usuarioModel != null and pessoaController.excluirUsuario == false}">
+
+					<p:outputLabel value="Código" for="inputText-codigoUsuario"
+						rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" />
+					<p:inputText id="inputText-codigoUsuario" value="#{pessoaController.pessoaModel.usuarioModel.codigo}"
+						style="width:50px" readonly="true" rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" />
+
+					<p:outputLabel value="Nome" for="inputText-nomeUsuario" />
+					<p:inputText id="inputText-nomeUsuario" style="width:300px" maxlength="15"
+						value="#{pessoaController.pessoaModel.usuarioModel.nome}" required="true"
+						requiredMessage="O nome é obrigatório." />
+
+					<p:outputLabel value="Senha" for="inputText-senhaUsuario" />
+					<p:inputText id="inputText-senhaUsuario" style="width:300px" maxlength="50"
+						value="#{pessoaController.pessoaModel.usuarioModel.senha}" required="true"
+						requiredMessage="A senha é obrigatória." />
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="10">
+
+					<p:commandButton value="Incluir Usuário" id="commandButton-incluirUsuario" icon="ui-icon-plus"
+						actionListener="#{pessoaController.incluirUsuario}" update="tab-usuario" />
+
+					<p:commandButton value="Excluir Usuário" id="commandButton-excluirUsuario" icon="ui-icon-trash"
+						actionListener="#{pessoaController.excluirUsuario}" update="tab-usuario">
+						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
+					</p:commandButton>
+
+				</h:panelGrid>
+			</p:tab>
+		</p:tabView>
+		<h:panelGrid cellspacing="10">
+			<h:column>
 				<p:commandButton value="Salvar" id="commandButton-salvar" icon="ui-icon-gear"
 					actionListener="#{pessoaController.salvar}" update="form-consulta" />
 
 				<p:commandButton value="Cancelar" id="commandButton-cancelar" icon="ui-icon-close"
 					actionListener="#{pessoaController.init}" onclick="PF('dialog-modal-alterar').hide();" />
-			</p:column>
+			</h:column>
 
 		</h:panelGrid>
-
 	</h:form>
 
 </ui:composition>
