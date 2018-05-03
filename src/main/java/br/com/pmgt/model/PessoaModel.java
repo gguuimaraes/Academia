@@ -62,10 +62,6 @@ public class PessoaModel {
 		this.usuarioModel = usuarioModel;
 	}
 
-	public boolean temUsuario() {
-		return usuarioModel != null;
-	}
-
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
@@ -73,4 +69,11 @@ public class PessoaModel {
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
+
+	@Override
+	public String toString() {
+		return "PessoaModel [codigo=" + codigo + ", nome=" + nome + ", sexo=" + sexo + ", email=" + email
+				+ ", endereco=" + endereco + ", usuarioModel=" + usuarioModel + ", dataCadastro=" + dataCadastro + "]";
+	}
+
 }

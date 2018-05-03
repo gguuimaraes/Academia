@@ -24,17 +24,17 @@ public class EquipamentoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	transient private EquipamentoModel equipamentoModel;
-
 	@Produces
 	private List<EquipamentoModel> equipamentos;
 
-	@Inject
-	transient private EquipamentoRepository equipamentoRepository;
+	@Produces
+	private List<EquipamentoModel> equipamentosFiltrados;
 
 	@Inject
-	UsuarioController usuarioController;
+	transient private EquipamentoModel equipamentoModel;
+
+	@Inject
+	transient private EquipamentoRepository equipamentoRepository;
 
 	public List<EquipamentoModel> getEquipamentos() {
 		return equipamentos;
@@ -44,12 +44,21 @@ public class EquipamentoController implements Serializable {
 		this.equipamentos = equipamentos;
 	}
 
+	public List<EquipamentoModel> getEquipamentosFiltrados() {
+		return equipamentosFiltrados;
+	}
+
+	public void setEquipamentosFiltrados(List<EquipamentoModel> equipamentosFiltrados) {
+		this.equipamentosFiltrados = equipamentosFiltrados;
+	}
+
 	public EquipamentoModel getEquipamentoModel() {
 		return equipamentoModel;
 	}
 
 	public void setEquipamentoModel(EquipamentoModel equipamentoModel) {
 		this.equipamentoModel = equipamentoModel;
+		PrimeFaces.current().executeScript("PF('dialog-modal-alterar').show();");
 	}
 
 	@PostConstruct
@@ -64,16 +73,17 @@ public class EquipamentoController implements Serializable {
 	}
 
 	public void salvar() {
-		String operacao = "incluir";
+		String operacao = equipamentoModel.getCodigo() == null ? "incluir" : "alterar";
+
 		if (equipamentoModel.getCodigo() == null) {
 			equipamentoRepository.incluir(equipamentoModel);
 		} else {
-			operacao = "alterar";
 			equipamentoRepository.alterar(equipamentoModel);
 		}
-		init();
+
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
+		init();
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {

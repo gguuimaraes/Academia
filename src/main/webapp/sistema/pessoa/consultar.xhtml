@@ -36,7 +36,8 @@
 			</p:commandButton>
 
 			<p:dataTable id="dataTable-registros" widgetVar="dataTable-registros" var="pessoa"
-				value="#{pessoaController.pessoas}" rows="15" paginator="true" emptyMessage="Nenhum registro."
+				value="#{pessoaController.pessoas}" filteredValue="#{pessoaController.pessoasFiltradas}"
+				rows="15" paginator="true" emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" styleClass="table"
 				currentPageReportTemplate="({startRecord} até {endRecord})">
@@ -72,7 +73,7 @@
 					<h:outputText value="#{pessoa.endereco}" />
 				</p:column>
 
-				<p:column headerText="Tem Usuário" filterBy="#{pessoa.temUsuario()}"
+				<p:column headerText="Tem Usuário" filterBy="#{pessoa.usuarioModel != null}"
 					sortBy="#{pessoa.temUsuario()}">
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('dataTable-registros').filter()" styleClass="filter-combo">
@@ -81,7 +82,7 @@
 							<f:selectItem itemLabel="Não" itemValue="false" />
 						</p:selectOneMenu>
 					</f:facet>
-					<h:outputText value="#{pessoa.temUsuario() ? 'Sim' : 'Não'}" />
+					<h:outputText value="#{pessoa.usuarioModel != null ? 'Sim' : 'Não'}" />
 				</p:column>
 
 				<p:column headerText="Data Cadastro" filterBy="#{pessoa.dataCadastro}"
@@ -100,14 +101,13 @@
 				</p:column>
 
 				<p:column style="width:25px;">
-					<p:commandButton icon="ui-icon-pencil" title="Alterar" ajax="true"
-						actionListener="#{pessoaController.setPessoaModel(pessoa)}"
-						oncomplete="PF('dialog-modal-alterar').show();" update="dialog-modal-alterar" />
+					<p:commandButton icon="ui-icon-pencil" title="Alterar"
+						action="#{pessoaController.setPessoaModel(pessoa)}" update="dialog-modal-alterar" />
 				</p:column>
 
 				<p:column style="width:25px;">
-					<p:commandButton icon="ui-icon-trash" title="Excluir" ajax="true"
-						actionListener="#{pessoaController.excluir(pessoa)}" update="@form">
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						action="#{pessoaController.excluir(pessoa)}" update="form-consulta">
 						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>

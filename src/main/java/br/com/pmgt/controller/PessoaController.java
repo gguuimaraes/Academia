@@ -30,6 +30,9 @@ public class PessoaController implements Serializable {
 	@Produces
 	private List<PessoaModel> pessoas;
 
+	@Produces
+	private List<PessoaModel> pessoasFiltradas;
+
 	@Inject
 	transient private PessoaModel pessoaModel;
 
@@ -47,13 +50,21 @@ public class PessoaController implements Serializable {
 		this.pessoas = pessoas;
 	}
 
+	public List<PessoaModel> getPessoasFiltradas() {
+		return pessoasFiltradas;
+	}
+
+	public void setPessoasFiltradas(List<PessoaModel> pessoasFiltradas) {
+		this.pessoasFiltradas = pessoasFiltradas;
+	}
+
 	public PessoaModel getPessoaModel() {
 		return pessoaModel;
 	}
 
 	public void setPessoaModel(PessoaModel pessoaModel) {
-		System.out.println("setando pessoaModel = " + pessoaModel);
 		this.pessoaModel = pessoaModel;
+		PrimeFaces.current().executeScript("PF('dialog-modal-alterar').show();");
 	}
 
 	@PostConstruct
@@ -73,7 +84,7 @@ public class PessoaController implements Serializable {
 		if (pessoaModel.getCodigo() == null) {
 			pessoaRepository.incluir(pessoaModel);
 		} else {
-			/* > Usuario > */
+			// ************** Inicio Usuario **************
 			boolean excluirUsuario = false;
 			UsuarioModel oldUsuarioModel = pessoaRepository.consultarModel(pessoaModel.getCodigo()).getUsuarioModel();
 			if (pessoaModel.getUsuarioModel() != null) {
@@ -90,13 +101,15 @@ public class PessoaController implements Serializable {
 					excluirUsuario = true;
 				}
 			}
-			/* < Usuario < */
+			// ************** Fim Usuario **************
 
 			pessoaRepository.alterar(pessoaModel);
 
+			// ************** Inicio Usuario **************
 			if (excluirUsuario) {
 				usuarioRepository.excluir(oldUsuarioModel.getCodigo());
 			}
+			// ************** Fim Usuario **************
 		}
 
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");

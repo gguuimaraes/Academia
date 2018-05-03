@@ -43,7 +43,7 @@
 				<h:panelGrid columns="1" cellpadding="10"
 					rendered="#{pessoaController.pessoaModel.usuarioModel == null}">
 
-					<p:outputLabel value="Não há Usuário para esta Pessoa." />
+					<p:outputLabel value="Esta Pessoa não possui Usuário." />
 
 					<p:commandButton value="Incluir Usuário" id="commandButton-incluirUsuario" icon="ui-icon-plus"
 						action="#{pessoaController.btnIncluirUsuario}" update="tabView-pessoa" immediate="true" />
