@@ -19,7 +19,7 @@ public class Uteis {
 
 	// MOSTRAR MENSAGEM
 	public static void MensagemAtencao(String mensagem) {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção:", mensagem));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", mensagem));
 	}
 
 	// MOSTRAR MENSAGEM

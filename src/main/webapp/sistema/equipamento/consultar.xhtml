@@ -9,14 +9,8 @@
 
 	<ui:define name="content">
 
-		<p:dialog header="Alterar" id="dialog-modal-alterar" widgetVar="dialog-modal-alterar" modal="true">
+		<p:dialog header="Equipamento" id="dialogEquipamento" widgetVar="dialogEquipamento" modal="true">
 			<ui:include src="alterar.xhtml" />
-			<p:ajax event="close" update="dialog-modal-alterar" />
-		</p:dialog>
-
-		<p:dialog header="Incluir" id="dialog-modal-incluir" widgetVar="dialog-modal-incluir" modal="true">
-			<ui:include src="incluir.xhtml" />
-			<p:ajax event="close" update="dialog-modal-incluir" />
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">
@@ -31,13 +25,14 @@
 			</p:confirmDialog>
 
 			<p:commandButton value="Incluir Equipamento" title="Incluir Equipamento" icon="ui-icon-plus"
-				actionListener="#{equipamentoController.btnIncluir}" immediate="true"
+				action="#{equipamentoController.incluir}" update="dialogEquipamento" immediate="true"
 				style="left: 2%; margin-bottom: 1%">
 			</p:commandButton>
 
 			<p:dataTable id="dataTable-registros" widgetVar="dataTable-registros" var="equipamento"
-				value="#{equipamentoController.equipamentos}" filteredValue="#{equipamentoController.equipamentosFiltrados}"
-				rows="15" paginator="true" emptyMessage="Nenhum registro."
+				value="#{equipamentoController.equipamentos}"
+				filteredValue="#{equipamentoController.equipamentosFiltrados}" rows="15" paginator="true"
+				emptyMessage="Nenhum registro."
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15" styleClass="table"
 				currentPageReportTemplate="({startRecord} até {endRecord})">
@@ -92,13 +87,12 @@
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-pencil" title="Alterar"
-						actionListener="#{equipamentoController.setEquipamentoModel(equipamento)}"
-						update="dialog-modal-alterar" />
+						action="#{equipamentoController.alterar(equipamento)}" update="dialogEquipamento" />
 				</p:column>
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						actionListener="#{equipamentoController.excluir(equipamento)}" update="form-consulta">
+						action="#{equipamentoController.excluir(equipamento)}" update="form-consulta">
 						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
 					</p:commandButton>
 				</p:column>

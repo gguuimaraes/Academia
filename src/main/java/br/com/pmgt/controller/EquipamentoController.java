@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
+import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,6 +16,7 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import br.com.pmgt.model.EquipamentoModel;
+import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.repository.EquipamentoRepository;
 import br.com.pmgt.uteis.Uteis;
 
@@ -58,7 +60,6 @@ public class EquipamentoController implements Serializable {
 
 	public void setEquipamentoModel(EquipamentoModel equipamentoModel) {
 		this.equipamentoModel = equipamentoModel;
-		PrimeFaces.current().executeScript("PF('dialog-modal-alterar').show();");
 	}
 
 	@PostConstruct
@@ -73,17 +74,15 @@ public class EquipamentoController implements Serializable {
 	}
 
 	public void salvar() {
-		String operacao = equipamentoModel.getCodigo() == null ? "incluir" : "alterar";
-
 		if (equipamentoModel.getCodigo() == null) {
 			equipamentoRepository.incluir(equipamentoModel);
 		} else {
 			equipamentoRepository.alterar(equipamentoModel);
 		}
-
-		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
+		
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
-		init();
+		
+		cancelar();
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {
@@ -99,8 +98,18 @@ public class EquipamentoController implements Serializable {
 		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
 	}
 
-	public void btnIncluir() {
+	public void incluir() {
 		equipamentoModel = new EquipamentoModel();
-		PrimeFaces.current().executeScript("PF('dialog-modal-incluir').show();");
+		PrimeFaces.current().executeScript("PF('dialogEquipamento').show();");
+	}
+	
+	public void alterar(EquipamentoModel equipamentoModel) {
+		this.equipamentoModel = equipamentoModel;
+		PrimeFaces.current().executeScript("PF('dialogEquipamento').show();");
+	}
+
+	public void cancelar() {
+		init();
+		PrimeFaces.current().executeScript("PF('dialogEquipamento').hide();");
 	}
 }
