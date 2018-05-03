@@ -30,7 +30,8 @@ public class PessoaRepository {
 		pessoa.setSexo(pessoaModel.getSexo());
 		pessoa.setEmail(pessoaModel.getEmail());
 		pessoa.setEndereco(pessoaModel.getEndereco());
-		pessoa.setUsuario(null);
+		pessoa.setUsuario(pessoaModel.getUsuarioModel() == null ? null
+				: entityManager.find(Usuario.class, pessoaModel.getUsuarioModel().getCodigo()));
 		pessoa.setDataCadastro(new Date());
 		entityManager.persist(pessoa);
 	}

@@ -64,7 +64,6 @@ public class PessoaController implements Serializable {
 
 	public void setPessoaModel(PessoaModel pessoaModel) {
 		this.pessoaModel = pessoaModel;
-		PrimeFaces.current().executeScript("PF('dialog-modal-alterar').show();");
 	}
 
 	@PostConstruct
@@ -79,27 +78,27 @@ public class PessoaController implements Serializable {
 	}
 
 	public void salvar() {
-		String operacao = pessoaModel.getCodigo() == null ? "incluir" : "alterar";
-
 		if (pessoaModel.getCodigo() == null) {
+			if (pessoaModel.getUsuarioModel() != null) {
+				usuarioRepository.incluir(pessoaModel.getUsuarioModel());
+			}
+			
 			pessoaRepository.incluir(pessoaModel);
 		} else {
 			// ************** Inicio Usuario **************
 			boolean excluirUsuario = false;
+
 			UsuarioModel oldUsuarioModel = pessoaRepository.consultarModel(pessoaModel.getCodigo()).getUsuarioModel();
 			if (pessoaModel.getUsuarioModel() != null) {
 				if (oldUsuarioModel == null) {
 					usuarioRepository.incluir(pessoaModel.getUsuarioModel());
-
 				} else {
 					if (pessoaModel.getUsuarioModel().getCodigo() == null)
 						pessoaModel.getUsuarioModel().setCodigo(oldUsuarioModel.getCodigo());
 					usuarioRepository.alterar(pessoaModel.getUsuarioModel());
 				}
-			} else {
-				if (oldUsuarioModel != null) {
-					excluirUsuario = true;
-				}
+			} else if (oldUsuarioModel != null) {
+				excluirUsuario = true;
 			}
 			// ************** Fim Usuario **************
 
@@ -112,17 +111,17 @@ public class PessoaController implements Serializable {
 			// ************** Fim Usuario **************
 		}
 
-		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
-		init();
+
+		cancelar();
 	}
 
-	public void btnIncluirUsuario() {
+	public void incluirUsuario() {
 		pessoaModel.setUsuarioModel(new UsuarioModel());
 
 	}
 
-	public void btnExcluirUsuario() {
+	public void excluirUsuario() {
 		pessoaModel.setUsuarioModel(null);
 
 	}
@@ -140,8 +139,18 @@ public class PessoaController implements Serializable {
 		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
 	}
 
-	public void btnIncluir() {
+	public void incluir() {
 		pessoaModel = new PessoaModel();
-		PrimeFaces.current().executeScript("PF('dialog-modal-incluir').show();");
+		PrimeFaces.current().executeScript("PF('dialogPessoa').show();");
+	}
+
+	public void alterar(PessoaModel pessoaModel) {
+		this.pessoaModel = pessoaModel;
+		PrimeFaces.current().executeScript("PF('dialogPessoa').show();");
+	}
+
+	public void cancelar() {
+		init();
+		PrimeFaces.current().executeScript("PF('dialogPessoa').hide();");
 	}
 }

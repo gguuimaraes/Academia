@@ -9,14 +9,8 @@
 
 	<ui:define name="content">
 
-		<p:dialog header="Alterar" id="dialog-modal-alterar" widgetVar="dialog-modal-alterar" modal="true">
+		<p:dialog header="Pessoa" id="dialogPessoa" widgetVar="dialogPessoa" modal="true">
 			<ui:include src="alterar.xhtml" />
-			<p:ajax event="close" update="dialog-modal-alterar" />
-		</p:dialog>
-
-		<p:dialog header="Incluir" id="dialog-modal-incluir" widgetVar="dialog-modal-incluir" modal="true">
-			<ui:include src="incluir.xhtml" />
-			<p:ajax event="close" update="dialog-modal-incluir" />
 		</p:dialog>
 
 		<h:form id="form-consulta" style="height:100%">
@@ -31,7 +25,7 @@
 			</p:confirmDialog>
 
 			<p:commandButton value="Incluir Pessoa" title="Incluir Pessoa" icon="ui-icon-plus"
-				actionListener="#{pessoaController.btnIncluir}" immediate="true"
+				action="#{pessoaController.incluir}" update="dialogPessoa" immediate="true"
 				style="left: 2%; margin-bottom: 1%">
 			</p:commandButton>
 
@@ -74,7 +68,7 @@
 				</p:column>
 
 				<p:column headerText="Tem Usuário" filterBy="#{pessoa.usuarioModel != null}"
-					sortBy="#{pessoa.temUsuario()}">
+					sortBy="#{pessoa.usuarioModel != null}">
 					<f:facet name="filter">
 						<p:selectOneMenu onchange="PF('dataTable-registros').filter()" styleClass="filter-combo">
 							<f:selectItem itemLabel="Todos" itemValue="" />
@@ -102,7 +96,7 @@
 
 				<p:column style="width:25px;">
 					<p:commandButton icon="ui-icon-pencil" title="Alterar"
-						action="#{pessoaController.setPessoaModel(pessoa)}" update="dialog-modal-alterar" />
+						action="#{pessoaController.alterar(pessoa)}" update="dialogPessoa" />
 				</p:column>
 
 				<p:column style="width:25px;">

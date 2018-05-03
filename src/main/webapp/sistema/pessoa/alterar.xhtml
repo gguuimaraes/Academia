@@ -11,9 +11,10 @@
 		<p:tabView id="tabView-pessoa">
 			<p:tab title="Pessoa" id="tab-pessoa">
 				<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
-					<p:outputLabel value="Código" for="inputText-codigo" />
+					<p:outputLabel value="Código" for="inputText-codigo"
+						rendered="#{pessoaController.pessoaModel.codigo != null}" />
 					<p:inputText id="inputText-codigo" value="#{pessoaController.pessoaModel.codigo}"
-						style="width:50px" readonly="true" />
+						readonly="true" rendered="#{pessoaController.pessoaModel.codigo != null}" style="width:50px" />
 
 					<p:outputLabel value="Nome" for="inputText-nome" />
 					<p:inputText id="inputText-nome" style="width:300px" maxlength="70"
@@ -46,7 +47,7 @@
 					<p:outputLabel value="Esta Pessoa não possui Usuário." />
 
 					<p:commandButton value="Incluir Usuário" id="commandButton-incluirUsuario" icon="ui-icon-plus"
-						action="#{pessoaController.btnIncluirUsuario}" update="tabView-pessoa" immediate="true" />
+						action="#{pessoaController.incluirUsuario}" update="tabView-pessoa" immediate="true" />
 
 				</h:panelGrid>
 				<h:panelGrid columns="2" cellpadding="10"
@@ -69,7 +70,8 @@
 						requiredMessage="A senha é obrigatória." />
 					<p:spacer />
 					<p:commandButton value="Excluir Usuário" id="commandButton-excluirUsuario" icon="ui-icon-trash"
-						action="#{pessoaController.btnExcluirUsuario}" update="tabView-pessoa" immediate="true">
+						action="#{pessoaController.excluirUsuario}" update="tabView-pessoa" immediate="true"
+						style="right:0">
 						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
 					</p:commandButton>
 
@@ -80,10 +82,10 @@
 		<h:panelGrid cellspacing="10">
 			<h:column>
 				<p:commandButton value="Salvar" id="commandButton-salvar" icon="ui-icon-gear"
-					actionListener="#{pessoaController.salvar}" update="form-consulta" />
+					action="#{pessoaController.salvar}" update="form-consulta" />
 
 				<p:commandButton value="Cancelar" id="commandButton-cancelar" icon="ui-icon-close"
-					actionListener="#{pessoaController.init}" onclick="PF('dialog-modal-alterar').hide();" />
+					action="#{pessoaController.cancelar}" immediate="true" />
 			</h:column>
 
 		</h:panelGrid>
