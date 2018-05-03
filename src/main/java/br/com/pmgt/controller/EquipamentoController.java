@@ -67,7 +67,6 @@ public class EquipamentoController implements Serializable {
 		String operacao = "incluir";
 		if (equipamentoModel.getCodigo() == null) {
 			equipamentoRepository.incluir(equipamentoModel);
-			equipamentoModel = new EquipamentoModel();
 		} else {
 			operacao = "alterar";
 			equipamentoRepository.alterar(equipamentoModel);
@@ -88,5 +87,10 @@ public class EquipamentoController implements Serializable {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
+	}
+
+	public void btnIncluir() {
+		equipamentoModel = new EquipamentoModel();
+		PrimeFaces.current().executeScript("PF('dialog-modal-incluir').show();");
 	}
 }

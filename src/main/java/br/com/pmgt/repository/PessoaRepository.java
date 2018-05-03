@@ -67,6 +67,28 @@ public class PessoaRepository {
 		return entityManager.find(Pessoa.class, codigo);
 	}
 
+	public PessoaModel consultarModel(int codigo) {
+		entityManager = Uteis.JpaEntityManager();
+
+		PessoaModel pessoaModel = null;
+		Pessoa pessoa = entityManager.find(Pessoa.class, codigo);
+		if (pessoa != null) {
+			pessoaModel = new PessoaModel();
+			pessoaModel.setCodigo(pessoa.getCodigo());
+			pessoaModel.setNome(pessoa.getNome());
+			pessoaModel.setSexo(pessoa.getSexo());
+			pessoaModel.setEmail(pessoa.getEmail());
+			pessoaModel.setEndereco(pessoa.getEndereco());
+			pessoaModel.setUsuarioModel(
+					pessoa.getUsuario() != null
+							? new UsuarioModel(pessoa.getUsuario().getCodigo(), pessoa.getUsuario().getNome(),
+									pessoa.getUsuario().getSenha())
+							: null);
+			pessoaModel.setDataCadastro(pessoa.getDataCadastro());
+		}
+		return pessoaModel;
+	}
+
 	public void alterar(PessoaModel pessoaModel) {
 		entityManager = Uteis.JpaEntityManager();
 
@@ -75,7 +97,8 @@ public class PessoaRepository {
 		pessoa.setSexo(pessoaModel.getSexo());
 		pessoa.setEmail(pessoaModel.getEmail());
 		pessoa.setEndereco(pessoaModel.getEndereco());
-		pessoa.setUsuario(pessoaModel.getUsuarioModel() == null ? null : entityManager.find(Usuario.class, pessoaModel.getUsuarioModel().getCodigo()));
+		pessoa.setUsuario(pessoaModel.getUsuarioModel() == null ? null
+				: entityManager.find(Usuario.class, pessoaModel.getUsuarioModel().getCodigo()));
 		entityManager.merge(pessoa);
 	}
 

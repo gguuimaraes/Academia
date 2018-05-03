@@ -33,16 +33,6 @@ public class PessoaController implements Serializable {
 	@Inject
 	transient private PessoaModel pessoaModel;
 
-	public UsuarioModel getUsuarioModel() {
-		return usuarioModel;
-	}
-
-	public void setUsuarioModel(UsuarioModel usuarioModel) {
-		this.usuarioModel = usuarioModel;
-	}
-
-	private UsuarioModel usuarioModel = null;
-
 	@Inject
 	transient private PessoaRepository pessoaRepository;
 
@@ -58,13 +48,11 @@ public class PessoaController implements Serializable {
 	}
 
 	public PessoaModel getPessoaModel() {
-		if (pessoaModel.getUsuarioModel() != null) { 
-			usuarioModel = pessoaModel.getUsuarioModel();
-		}
 		return pessoaModel;
 	}
 
 	public void setPessoaModel(PessoaModel pessoaModel) {
+		System.out.println("setando pessoaModel = " + pessoaModel);
 		this.pessoaModel = pessoaModel;
 	}
 
@@ -80,44 +68,50 @@ public class PessoaController implements Serializable {
 	}
 
 	public void salvar() {
-		if (usuarioModel != null) {
-			if (usuarioModel.getCodigo() == 0) {
-				usuarioRepository.incluir(usuarioModel);
-			} else {
-				usuarioRepository.alterar(usuarioModel);
-			}
-		}
+		String operacao = pessoaModel.getCodigo() == null ? "incluir" : "alterar";
 
-		String operacao = "incluir";
 		if (pessoaModel.getCodigo() == null) {
 			pessoaRepository.incluir(pessoaModel);
-			pessoaModel = new PessoaModel();
 		} else {
-			operacao = "alterar";
-			
-			UsuarioModel oldUsuarioModel = pessoaModel.getUsuarioModel();
-			pessoaModel.setUsuarioModel(usuarioModel);
-			
+			/* > Usuario > */
+			boolean excluirUsuario = false;
+			UsuarioModel oldUsuarioModel = pessoaRepository.consultarModel(pessoaModel.getCodigo()).getUsuarioModel();
+			if (pessoaModel.getUsuarioModel() != null) {
+				if (oldUsuarioModel == null) {
+					usuarioRepository.incluir(pessoaModel.getUsuarioModel());
+
+				} else {
+					if (pessoaModel.getUsuarioModel().getCodigo() == null)
+						pessoaModel.getUsuarioModel().setCodigo(oldUsuarioModel.getCodigo());
+					usuarioRepository.alterar(pessoaModel.getUsuarioModel());
+				}
+			} else {
+				if (oldUsuarioModel != null) {
+					excluirUsuario = true;
+				}
+			}
+			/* < Usuario < */
+
 			pessoaRepository.alterar(pessoaModel);
 
-			if (usuarioModel == null && oldUsuarioModel != null) {
+			if (excluirUsuario) {
 				usuarioRepository.excluir(oldUsuarioModel.getCodigo());
 			}
-			
-			pessoaModel = new PessoaModel();
-			usuarioModel = null;
 		}
-		init();
+
 		PrimeFaces.current().executeScript("PF('dialog-modal-" + operacao + "').hide();");
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
+		init();
 	}
 
-	public void incluirUsuario() {
-		usuarioModel = new UsuarioModel();
+	public void btnIncluirUsuario() {
+		pessoaModel.setUsuarioModel(new UsuarioModel());
+
 	}
 
-	public void excluirUsuario() {
-		usuarioModel = null;
+	public void btnExcluirUsuario() {
+		pessoaModel.setUsuarioModel(null);
+
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {
@@ -131,5 +125,10 @@ public class PessoaController implements Serializable {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
+	}
+
+	public void btnIncluir() {
+		pessoaModel = new PessoaModel();
+		PrimeFaces.current().executeScript("PF('dialog-modal-incluir').show();");
 	}
 }

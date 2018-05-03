@@ -36,10 +36,9 @@
 					icon="ui-icon-close" />
 			</p:confirmDialog>
 
-			<p:commandButton icon="ui-icon-plus" title="Incluir Equipamento"
-				style="left: 2%; margin-bottom: 1%" value="Incluir Equipamento"
-				ajax="true" onclick="PF('dialog-modal-incluir').show();">
-				<p:resetInput target=":dialog-modal-incluir" />
+			<p:commandButton value="Incluir Equipamento" title="Incluir Equipamento" icon="ui-icon-plus"
+				actionListener="#{equipamentoController.btnIncluir}" immediate="true"
+				style="left: 2%; margin-bottom: 1%">
 			</p:commandButton>
 
 			<p:dataTable id="dataTable-registros" widgetVar="dataTable-registros"
