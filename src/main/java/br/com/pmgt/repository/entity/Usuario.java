@@ -12,12 +12,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * @author gynadm06
+ *
+ */
 @Entity
 @Table(name = "usuario")
 
 @NamedQueries({
 	
-		@NamedQuery(name = "Usuario.findUser", query = "SELECT u FROM Usuario u WHERE u.nome = :nome AND u.senha = :senha")
+		@NamedQuery(name = "Usuario.findUser", query = "SELECT u FROM Usuario u WHERE u.nome = :nome AND u.senha = :senha"),
+		@NamedQuery(name = "Usuario.findUserByName", query = "SELECT u FROM Usuario u WHERE u.nome = :nome")
 
 })
 
@@ -59,5 +64,6 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
 
 }

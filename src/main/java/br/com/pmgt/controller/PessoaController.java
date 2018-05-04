@@ -8,18 +8,21 @@ import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.print.attribute.standard.Severity;
 
 import org.primefaces.PrimeFaces;
-import org.primefaces.component.tabview.TabView;
 
 import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.model.UsuarioModel;
 import br.com.pmgt.repository.PessoaRepository;
 import br.com.pmgt.repository.UsuarioRepository;
-import br.com.pmgt.repository.entity.Pessoa;
 import br.com.pmgt.uteis.Uteis;
 
 @Named(value = "pessoaController")
@@ -87,12 +90,10 @@ public class PessoaController implements Serializable {
 			if (pessoaModel.getUsuarioModel() != null) {
 				usuarioRepository.incluir(pessoaModel.getUsuarioModel());
 			}
-			
 			pessoaRepository.incluir(pessoaModel);
 		} else {
 			// ************** Inicio Usuario **************
 			boolean excluirUsuario = false;
-
 			UsuarioModel oldUsuarioModel = pessoaRepository.consultarModel(pessoaModel.getCodigo()).getUsuarioModel();
 			if (pessoaModel.getUsuarioModel() != null) {
 				if (oldUsuarioModel == null) {
@@ -117,8 +118,8 @@ public class PessoaController implements Serializable {
 		}
 
 		Uteis.MensagemInfo("Registro salvo com sucesso!");
-
 		cancelar();
+
 	}
 
 	public void incluirUsuario() {
@@ -128,6 +129,21 @@ public class PessoaController implements Serializable {
 
 	public void excluirUsuario() {
 		pessoaModel.setUsuarioModel(null);
+	}
+
+	public void isNomeValido(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+		String nome = value.toString();
+		if (nome.contains(" ")) {
+			throw new ValidatorException(
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário", "Nome de usuário inválido."));
+		}
+		if (nome.equals(pessoaModel.getUsuarioModel().getNome()))
+			return;
+		if (usuarioRepository.existe(nome)) {
+			throw new ValidatorException(
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário", "Nome de usuário já existente."));
+		}
+
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {

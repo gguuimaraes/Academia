@@ -26,11 +26,11 @@
 					<p:outputLabel value="Nome" for="txtNome" />
 					<p:inputText id="txtNome" style="width:300px" maxlength="70"
 						value="#{pessoaController.pessoaModel.nome}" required="true"
-						requiredMessage="O nome é obrigatório." />
+						requiredMessage="Nome obrigatório." />
 
 					<p:outputLabel for="slctSexo" value="Sexo:" />
 					<p:selectOneRadio id="slctSexo" value="#{pessoaController.pessoaModel.sexo}" required="true"
-						requiredMessage="O sexo é obrigatório.">
+						requiredMessage="Sexo obrigatório.">
 
 						<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
 					</p:selectOneRadio>
@@ -38,12 +38,15 @@
 					<p:outputLabel value="E-mail" for="txtEmail" />
 					<p:inputText id="txtEmail" style="width:300px" maxlength="80"
 						value="#{pessoaController.pessoaModel.email}" required="true"
-						requiredMessage="O email é obrigatório." />
+						requiredMessage="Email obrigatório." validatorMessage="Email inválido.">
+						<f:validateRegex
+							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</p:inputText>
 
 					<p:outputLabel value="Endereço" for="txtEndereco" />
 					<p:inputText id="txtEndereco" style="width:400px" maxlength="200"
 						value="#{pessoaController.pessoaModel.endereco}" required="true"
-						requiredMessage="O endereço é obrigatório." />
+						requiredMessage="Endereço obrigatório." />
 
 				</h:panelGrid>
 			</p:tab>
@@ -69,12 +72,13 @@
 					<p:outputLabel value="Nome" for="txtNomeUsuario" />
 					<p:inputText id="txtNomeUsuario" style="width:300px" maxlength="15"
 						value="#{pessoaController.pessoaModel.usuarioModel.nome}" required="true"
-						requiredMessage="O nome é obrigatório." />
+						requiredMessage="Nome de usuário obrigatório." validator="#{pessoaController.isNomeValido}" />
+
 
 					<p:outputLabel value="Senha" for="txtSenhaUsuario" />
 					<p:inputText id="txtSenhaUsuario" style="width:300px" maxlength="50"
 						value="#{pessoaController.pessoaModel.usuarioModel.senha}" required="true"
-						requiredMessage="A senha é obrigatória." />
+						requiredMessage="Senha obrigatória." />
 
 					<p:spacer />
 

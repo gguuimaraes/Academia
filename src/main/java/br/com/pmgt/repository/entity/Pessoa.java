@@ -32,7 +32,7 @@ public class Pessoa {
 	@Column(name = "codigo")
 	private Integer codigo;
 
-	@Column(name = "nome")
+	@Column(name = "nome", length = 100)
 	private String nome;
 
 	@Column(name = "sexo")

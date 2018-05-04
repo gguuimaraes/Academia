@@ -1,26 +1,21 @@
 package br.com.pmgt.repository;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.model.UsuarioModel;
-import br.com.pmgt.repository.entity.Pessoa;
 import br.com.pmgt.repository.entity.Usuario;
 import br.com.pmgt.uteis.Uteis;
 
 public class UsuarioRepository implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	EntityManager entityManager;
 
 	public Usuario ValidaUsuario(UsuarioModel usuarioModel) {
-
 		try {
 			// QUERY QUE VAI SER EXECUTADA (Usuario.findUser)
 			Query query = Uteis.JpaEntityManager().createNamedQuery("Usuario.findUser");
@@ -49,6 +44,7 @@ public class UsuarioRepository implements Serializable {
 	}
 
 	public void alterar(UsuarioModel usuarioModel) {
+
 		entityManager = Uteis.JpaEntityManager();
 
 		Usuario usuario = consultar(usuarioModel.getCodigo());
@@ -61,10 +57,20 @@ public class UsuarioRepository implements Serializable {
 		entityManager = Uteis.JpaEntityManager();
 		return entityManager.find(Usuario.class, codigo);
 	}
-	
+
 	public void excluir(int codigo) {
 		entityManager = Uteis.JpaEntityManager();
 		entityManager.remove(consultar(codigo));
+	}
+
+	public boolean existe(String nome) {
+		try {
+			Uteis.JpaEntityManager().createNamedQuery("Usuario.findUserByName").setParameter("nome", nome)
+					.getSingleResult();
+		} catch (NoResultException e) {
+			return false;
+		}
+		return true;
 	}
 
 }
