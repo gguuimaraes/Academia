@@ -131,7 +131,7 @@ public class PessoaController implements Serializable {
 		pessoaModel.setUsuarioModel(null);
 	}
 
-	public void isNomeValido(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+	public void isNomeUsuarioValido(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
 		String nome = value.toString();
 		if (nome.contains(" ")) {
 			throw new ValidatorException(
@@ -144,6 +144,15 @@ public class PessoaController implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário", "Nome de usuário já existente."));
 		}
 
+	}
+	
+	public void isSenhaValida(FacesContext ctx, UIComponent component, Object value) throws ValidatorException {
+		String senhaConfirmacao = value.toString();
+		String senha = component.findComponent("txtSenha").getAttributes().get("value").toString();
+		if (!senha.equals(senhaConfirmacao) ) {
+			throw new ValidatorException(
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuário", "A senha de confirmação não confere."));
+		}
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {

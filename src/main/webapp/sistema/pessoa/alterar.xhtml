@@ -16,27 +16,34 @@
 
 			<p:tab title="Pessoa" id="tabPessoa">
 				<p:focus context="panelGridPessoa" />
-				<h:panelGrid id="panelGridPessoa" columns="2" cellpadding="10">
+				<h:panelGrid id="panelGridPessoa" columns="2">
 
-					<p:outputLabel value="Código" for="txtCodigo"
-						rendered="#{pessoaController.pessoaModel.codigo != null}" />
-					<p:inputText id="txtCodigo" value="#{pessoaController.pessoaModel.codigo}" readonly="true"
-						rendered="#{pessoaController.pessoaModel.codigo != null}" style="width:50px" />
+					<p:row>
+						<p:outputLabel value="Código" for="txtCodigo"
+							rendered="#{pessoaController.pessoaModel.codigo != null}" />
 
-					<p:outputLabel value="Nome" for="txtNome" />
-					<p:inputText id="txtNome" style="width:300px" maxlength="70"
-						value="#{pessoaController.pessoaModel.nome}" required="true"
-						requiredMessage="Nome obrigatório." />
+						<p:outputLabel value="Nome" for="txtNome" />
+					</p:row>
+					<p:row>
+						<p:inputText id="txtCodigo" value="#{pessoaController.pessoaModel.codigo}" readonly="true"
+							rendered="#{pessoaController.pessoaModel.codigo != null}" style="width:50px" />
 
-					<p:outputLabel for="slctSexo" value="Sexo:" />
-					<p:selectOneRadio id="slctSexo" value="#{pessoaController.pessoaModel.sexo}" required="true"
-						requiredMessage="Sexo obrigatório.">
+						<p:inputText id="txtNome" maxlength="50" value="#{pessoaController.pessoaModel.nome}"
+							required="true" requiredMessage="Nome obrigatório." style="width:200px" />
 
-						<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
-					</p:selectOneRadio>
+					</p:row>
+
+					<h:panelGrid columns="2">
+						<p:outputLabel for="slctSexo" value="Sexo:" />
+						<p:selectOneRadio id="slctSexo" value="#{pessoaController.pessoaModel.sexo}" required="true"
+							requiredMessage="Sexo obrigatório.">
+
+							<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
+						</p:selectOneRadio>
+					</h:panelGrid>
 
 					<p:outputLabel value="E-mail" for="txtEmail" />
-					<p:inputText id="txtEmail" style="width:300px" maxlength="80"
+					<p:inputText id="txtEmail" style="width:300px" maxlength="50"
 						value="#{pessoaController.pessoaModel.email}" required="true"
 						requiredMessage="Email obrigatório." validatorMessage="Email inválido.">
 						<f:validateRegex
@@ -44,23 +51,25 @@
 					</p:inputText>
 
 					<p:outputLabel value="Endereço" for="txtEndereco" />
-					<p:inputText id="txtEndereco" style="width:400px" maxlength="200"
+					<p:inputText id="txtEndereco" style="width:400px" maxlength="100"
 						value="#{pessoaController.pessoaModel.endereco}" required="true"
 						requiredMessage="Endereço obrigatório." />
 
 				</h:panelGrid>
 			</p:tab>
 			<p:tab title="Usuário" id="tabUsuario">
-				<h:panelGrid columns="1" cellpadding="10"
+				<h:panelGrid columns="1" cellpadding="2"
 					rendered="#{pessoaController.pessoaModel.usuarioModel == null}">
 
 					<p:outputLabel value="Esta Pessoa não possui Usuário." />
+
+					<p:separator />
 
 					<p:commandButton value="Incluir Usuário" id="btnIncluirUsuario" icon="ui-icon-plus"
 						action="#{pessoaController.incluirUsuario}" update="tabViewPessoa" immediate="true" />
 
 				</h:panelGrid>
-				<h:panelGrid columns="2" cellpadding="10"
+				<h:panelGrid columns="1" cellpadding="2"
 					rendered="#{pessoaController.pessoaModel.usuarioModel != null}">
 
 					<p:outputLabel value="Código" for="txtCodigoUsuario"
@@ -72,15 +81,20 @@
 					<p:outputLabel value="Nome" for="txtNomeUsuario" />
 					<p:inputText id="txtNomeUsuario" style="width:300px" maxlength="15"
 						value="#{pessoaController.pessoaModel.usuarioModel.nome}" required="true"
-						requiredMessage="Nome de usuário obrigatório." validator="#{pessoaController.isNomeValido}" />
+						requiredMessage="Nome de usuário obrigatório."
+						validator="#{pessoaController.isNomeUsuarioValido}" />
 
 
-					<p:outputLabel value="Senha" for="txtSenhaUsuario" />
-					<p:inputText id="txtSenhaUsuario" style="width:300px" maxlength="50"
+					<p:outputLabel value="Senha" for="txtSenha" />
+					<p:password id="txtSenha" style="width:300px" maxlength="50"
 						value="#{pessoaController.pessoaModel.usuarioModel.senha}" required="true"
-						requiredMessage="Senha obrigatória." />
+						requiredMessage="Senha obrigatória." match="txtConfirmacaoSenha" />
 
-					<p:spacer />
+					<p:outputLabel value="Senha de Confirmação" for="txtConfirmacaoSenha" />
+					<p:password id="txtConfirmacaoSenha" style="width:300px" maxlength="50" required="true"
+						requiredMessage="Senha de confirmação obrigatória." />
+
+					<p:separator />
 
 					<p:commandButton value="Excluir Usuário" id="btnExcluirUsuario" icon="ui-icon-trash"
 						action="#{pessoaController.excluirUsuario}" update="tabViewPessoa" immediate="true"
