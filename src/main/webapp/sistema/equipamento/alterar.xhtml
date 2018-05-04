@@ -27,7 +27,7 @@
 
 			<p:outputLabel value="Data Aquisição" for="clndrDataAquisicao" />
 			<p:calendar id="clndrDataAquisicao"
-				value="#{equipamentoController.equipamentoModel.dataAquisicao}" pattern="dd/MM/yyyy"
+				value="#{equipamentoController.equipamentoModel.dataAquisicao}" maxdate="#{equipamentoController.hoje}" pattern="dd/MM/yyyy"
 				required="true" requiredMessage="A data de aquisição é obrigatória." mask="true" />
 
 			<p:outputLabel value="Valor Compra" for="txtValorCompra" />

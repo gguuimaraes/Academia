@@ -19,6 +19,7 @@ import br.com.pmgt.model.PessoaModel;
 import br.com.pmgt.model.UsuarioModel;
 import br.com.pmgt.repository.PessoaRepository;
 import br.com.pmgt.repository.UsuarioRepository;
+import br.com.pmgt.repository.entity.Pessoa;
 import br.com.pmgt.uteis.Uteis;
 
 @Named(value = "pessoaController")
@@ -72,6 +73,10 @@ public class PessoaController implements Serializable {
 	}
 
 	public void excluir(PessoaModel pessoaModel) {
+
+		if (pessoaModel.getUsuarioModel() != null) {
+			usuarioRepository.excluir(pessoaModel.getUsuarioModel().getCodigo());
+		}
 		pessoaRepository.excluir(pessoaModel.getCodigo());
 		pessoas.remove(pessoaModel);
 		Uteis.MensagemInfo("Registro excluído com sucesso!");
@@ -123,7 +128,6 @@ public class PessoaController implements Serializable {
 
 	public void excluirUsuario() {
 		pessoaModel.setUsuarioModel(null);
-
 	}
 
 	public boolean filterByDate(Object value, Object filter, Locale locale) {

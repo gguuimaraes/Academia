@@ -97,6 +97,10 @@ public class EquipamentoController implements Serializable {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		return simpleDateFormat.format((Date) value).equals(simpleDateFormat.format((Date) filter));
 	}
+	
+	public Date getHoje() {
+		return new Date();
+	}
 
 	public void incluir() {
 		equipamentoModel = new EquipamentoModel();

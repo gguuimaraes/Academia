@@ -105,7 +105,7 @@ public class PessoaRepository {
 
 	public void excluir(int codigo) {
 		entityManager = Uteis.JpaEntityManager();
-
+		
 		entityManager.remove(consultar(codigo));
 	}
 }
