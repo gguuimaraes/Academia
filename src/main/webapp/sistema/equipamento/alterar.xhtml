@@ -1,9 +1,7 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formAlterar">
+
 		<p:hotkey bind="esc" action="#{equipamentoController.cancelar}" immediate="true" />
 
 		<p:messages id="messages" showDetail="true" closable="true" showSummary="false">
@@ -12,42 +10,33 @@
 
 		<p:focus context="panelGridEquipamento" />
 
-		<h:panelGrid id="panelGridEquipamento" columns="2" cellpadding="10">
+		<h:panelGrid id="panelGridEquipamento" columns="1" cellspacing="0" cellpadding="0">
 
-			<p:outputLabel value="Código" for="txtCodigo"
-				rendered="#{equipamentoController.equipamentoModel.codigo != null}" />
-			<p:inputText id="txtCodigo" value="#{equipamentoController.equipamentoModel.codigo}"
-				readonly="true" rendered="#{equipamentoController.equipamentoModel.codigo != null}"
-				style="width:50px" />
+			<h:panelGrid columns="#{equipamentoController.equipamentoModel.codigo != null ? '2' : '1'}">
+				<p:outputLabel value="Código" for="txtCodigo" rendered="#{equipamentoController.equipamentoModel.codigo != null}" />
+				<p:outputLabel value="Descrição" for="txtDescricao" />
 
-			<p:outputLabel value="Descrição" for="txtDescricao" />
-			<p:inputText id="txtDescricao" style="width:300px" maxlength="70"
-				value="#{equipamentoController.equipamentoModel.descricao}" required="true"
-				requiredMessage="A descrição é obrigatória." />
+				<p:inputText id="txtCodigo" value="#{equipamentoController.equipamentoModel.codigo}" readonly="true" rendered="#{equipamentoController.equipamentoModel.codigo != null}" style="width:50px" />
+				<p:inputText id="txtDescricao" style="#{equipamentoController.equipamentoModel.codigo != null ? 'width:242px' : 'width:306px'}" maxlength="70" value="#{equipamentoController.equipamentoModel.descricao}" required="true" requiredMessage="A descrição é obrigatória." />
+			</h:panelGrid>
 
-			<p:outputLabel value="Data Aquisição" for="clndrDataAquisicao" />
-			<p:calendar id="clndrDataAquisicao"
-				value="#{equipamentoController.equipamentoModel.dataAquisicao}" maxdate="#{equipamentoController.hoje}" pattern="dd/MM/yyyy"
-				required="true" requiredMessage="A data de aquisição é obrigatória." mask="true" />
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Data Aquisição" for="clndrDataAquisicao" />
+				<p:outputLabel value="Valor Compra" for="txtValorCompra" />
 
-			<p:outputLabel value="Valor Compra" for="txtValorCompra" />
-			<p:inputNumber id="txtValorCompra" thousandSeparator="" decimalSeparator=","
-				value="#{equipamentoController.equipamentoModel.valorCompra}" required="true"
-				requiredMessage="O valor de compra é obrigatório.">
-			</p:inputNumber>
+				<p:calendar id="clndrDataAquisicao" value="#{equipamentoController.equipamentoModel.dataAquisicao}" maxdate="#{equipamentoController.hoje}" pattern="dd/MM/yyyy" required="true" requiredMessage="A data de aquisição é obrigatória." mask="true" />
+				<p:inputNumber id="txtValorCompra" thousandSeparator="" decimalSeparator="," value="#{equipamentoController.equipamentoModel.valorCompra}" required="true" requiredMessage="O valor de compra é obrigatório." />
+			</h:panelGrid>
 
-			<p:spacer />
-
-			<p:column>
-				<p:commandButton value="Salvar" id="btnSalvar" icon="ui-icon-gear"
-					action="#{equipamentoController.salvar}" update="form-consulta" />
-
-				<p:commandButton value="Cancelar" id="btnCancelar" icon="ui-icon-close"
-					action="#{equipamentoController.cancelar}" immediate="true" />
-			</p:column>
-
+			<h:panelGrid columns="2" style="margin-top: 1px">
+				<p:commandButton value="Salvar" id="btnSalvar" icon="ui-icon-gear" action="#{equipamentoController.salvar}" update="form-consulta" />
+				<p:commandButton value="Cancelar" id="btnCancelar" icon="ui-icon-close" action="#{equipamentoController.cancelar}" immediate="true" />
+			</h:panelGrid>
+			
+			<p:defaultCommand target="btnSalvar" />
 		</h:panelGrid>
-		<p:defaultCommand target="btnSalvar" />
+
+
 	</h:form>
 
 </ui:composition>

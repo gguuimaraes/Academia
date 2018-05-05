@@ -1,6 +1,4 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui">
 
 	<h:form id="formAlterar">
 
@@ -10,115 +8,99 @@
 			<p:autoUpdate />
 		</p:messages>
 
+		<h:panelGrid id="panelGridPessoaGeral" columns="1" cellspacing="0" cellpadding="0">
 
+			<p:tabView id="tabViewPessoaGeral">
 
-		<p:tabView id="tabViewPessoa">
+				<p:ajax event="tabChange" update=":formAlterar:panelGridPessoaGeral" />
 
-			<p:tab title="Pessoa" id="tabPessoa">
-				<p:focus context="panelGridPessoa" />
-				<h:panelGrid id="panelGridPessoa" columns="2">
+				<p:tab title="Pessoa" id="tabPessoa">
 
-					<p:row>
-						<p:outputLabel value="Código" for="txtCodigo"
-							rendered="#{pessoaController.pessoaModel.codigo != null}" />
+					<p:focus context="panelGridPessoa" />
 
-						<p:outputLabel value="Nome" for="txtNome" />
-					</p:row>
-					<p:row>
-						<p:inputText id="txtCodigo" value="#{pessoaController.pessoaModel.codigo}" readonly="true"
-							rendered="#{pessoaController.pessoaModel.codigo != null}" style="width:50px" />
+					<h:panelGrid id="panelGridPessoa" columns="1" cellpadding="0" cellspacing="0">
 
-						<p:inputText id="txtNome" maxlength="50" value="#{pessoaController.pessoaModel.nome}"
-							required="true" requiredMessage="Nome obrigatório." style="width:200px" />
+						<h:panelGrid columns="#{pessoaController.pessoaModel.codigo != null ? '2' : '1'}">
+							<p:outputLabel value="Código" for="txtCodigo" rendered="#{pessoaController.pessoaModel.codigo != null}" />
+							<p:outputLabel value="Nome" for="txtNome" />
 
-					</p:row>
+							<p:inputText id="txtCodigo" value="#{pessoaController.pessoaModel.codigo}" readonly="true" rendered="#{pessoaController.pessoaModel.codigo != null}" style="width:50px" />
+							<p:inputText id="txtNome" maxlength="50" value="#{pessoaController.pessoaModel.nome}" required="true" requiredMessage="Nome obrigatório." style="#{pessoaController.pessoaModel.codigo != null ? 'width:256px' : 'width:320px'}" />
+						</h:panelGrid>
 
-					<h:panelGrid columns="2">
-						<p:outputLabel for="slctSexo" value="Sexo:" />
-						<p:selectOneRadio id="slctSexo" value="#{pessoaController.pessoaModel.sexo}" required="true"
-							requiredMessage="Sexo obrigatório.">
+						<h:panelGrid columns="2">
+							<p:outputLabel for="slctSexo" value="Sexo:" />
+							<p:selectOneRadio id="slctSexo" value="#{pessoaController.pessoaModel.sexo}" required="true" requiredMessage="Sexo obrigatório.">
+								<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
+							</p:selectOneRadio>
+						</h:panelGrid>
 
-							<f:selectItems value="#{pessoaController.pessoaModel.sexo.sexos}" />
-						</p:selectOneRadio>
+						<h:panelGrid columns="1">
+							<p:outputLabel value="E-mail" for="txtEmail" />
+							<p:inputText id="txtEmail" style="width:300px" maxlength="50" value="#{pessoaController.pessoaModel.email}" required="true" requiredMessage="Email obrigatório." validatorMessage="Email inválido.">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</p:inputText>
+
+							<p:outputLabel value="Endereço" for="txtEndereco" />
+							<p:inputText id="txtEndereco" style="width:320px" maxlength="100" value="#{pessoaController.pessoaModel.endereco}" required="true" requiredMessage="Endereço obrigatório." />
+						</h:panelGrid>
+
 					</h:panelGrid>
 
-					<p:outputLabel value="E-mail" for="txtEmail" />
-					<p:inputText id="txtEmail" style="width:300px" maxlength="50"
-						value="#{pessoaController.pessoaModel.email}" required="true"
-						requiredMessage="Email obrigatório." validatorMessage="Email inválido.">
-						<f:validateRegex
-							pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-					</p:inputText>
+				</p:tab>
 
-					<p:outputLabel value="Endereço" for="txtEndereco" />
-					<p:inputText id="txtEndereco" style="width:400px" maxlength="100"
-						value="#{pessoaController.pessoaModel.endereco}" required="true"
-						requiredMessage="Endereço obrigatório." />
+				<p:tab title="Usuário" id="tabUsuario">
 
-				</h:panelGrid>
-			</p:tab>
-			<p:tab title="Usuário" id="tabUsuario">
-				<h:panelGrid columns="1" cellpadding="2"
-					rendered="#{pessoaController.pessoaModel.usuarioModel == null}">
+					<p:focus context="panelGridUsuario" />
 
-					<p:outputLabel value="Esta Pessoa não possui Usuário." />
+					<h:panelGrid id="panelGridUsuarioNulo" columns="1" cellspacing="0" cellpadding="0" rendered="#{pessoaController.pessoaModel.usuarioModel == null}">
+						<p:outputLabel value="Esta Pessoa não possui Usuário." />
+						<p:spacer />
+						<p:commandButton value="Incluir Usuário" id="btnIncluirUsuario" icon="ui-icon-plus" action="#{pessoaController.incluirUsuario}" update="tabViewPessoaGeral" immediate="true" />
+					</h:panelGrid>
 
-					<p:separator />
+					<h:panelGrid id="panelGridUsuario" columns="1" cellspacing="0" cellpadding="0" rendered="#{pessoaController.pessoaModel.usuarioModel != null}">
 
-					<p:commandButton value="Incluir Usuário" id="btnIncluirUsuario" icon="ui-icon-plus"
-						action="#{pessoaController.incluirUsuario}" update="tabViewPessoa" immediate="true" />
+						<h:panelGrid columns="#{pessoaController.pessoaModel.usuarioModel.codigo != null ? '2' : '1'}">
+							<p:outputLabel value="Código" for="txtCodigoUsuario" rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" />
+							<p:outputLabel value="Nome de usuário" for="txtNomeUsuario" />
 
-				</h:panelGrid>
-				<h:panelGrid columns="1" cellpadding="2"
-					rendered="#{pessoaController.pessoaModel.usuarioModel != null}">
+							<p:inputText id="txtCodigoUsuario" value="#{pessoaController.pessoaModel.usuarioModel.codigo}" readonly="true" rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" style="width:50px" />
+							<p:inputText id="txtNomeUsuario" maxlength="25" value="#{pessoaController.pessoaModel.usuarioModel.nome}" required="true" requiredMessage="Nome de usuário obrigatório." validator="#{pessoaController.isNomeUsuarioValido}" validatorMessage="Nome de usuário deve ter de 5 a 25 caracteres." style="#{pessoaController.pessoaModel.usuarioModel.codigo != null ? 'width:190px' : 'width:254px'}">
+								<f:validateLength minimum="5" maximum="25" />
+							</p:inputText>
+						</h:panelGrid>
 
-					<p:outputLabel value="Código" for="txtCodigoUsuario"
-						rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" />
-					<p:inputText id="txtCodigoUsuario" value="#{pessoaController.pessoaModel.usuarioModel.codigo}"
-						style="width:50px" readonly="true"
-						rendered="#{pessoaController.pessoaModel.usuarioModel.codigo != null}" />
+						<h:panelGrid columns="2">
+							<p:outputLabel value="Senha" for="txtSenha" />
+							<p:outputLabel value="Repetir Senha" for="txtConfirmacaoSenha" />
 
-					<p:outputLabel value="Nome" for="txtNomeUsuario" />
-					<p:inputText id="txtNomeUsuario" style="width:300px" maxlength="15"
-						value="#{pessoaController.pessoaModel.usuarioModel.nome}" required="true"
-						requiredMessage="Nome de usuário obrigatório."
-						validator="#{pessoaController.isNomeUsuarioValido}" />
+							<p:password id="txtSenha" maxlength="30" value="#{pessoaController.pessoaModel.usuarioModel.senha}" required="true" requiredMessage="Senha obrigatória." validatorMessage="Senhas não conferem." match="txtConfirmacaoSenha" style="width:120px" />
+							<p:password id="txtConfirmacaoSenha" maxlength="30" validatorMessage="Senha deve ter de 6 a 30 caracteres.." style="width:120px">
+								<f:validateLength minimum="6" maximum="30" />
+							</p:password>
+						</h:panelGrid>
 
+						<h:panelGrid>
+							<p:spacer />
+							<p:commandButton value="Excluir Usuário" id="btnExcluirUsuario" icon="ui-icon-trash" action="#{pessoaController.excluirUsuario}" update="tabViewPessoaGeral" immediate="true" style="right:0">
+								<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
+							</p:commandButton>
+						</h:panelGrid>
 
-					<p:outputLabel value="Senha" for="txtSenha" />
-					<p:password id="txtSenha" style="width:300px" maxlength="50"
-						value="#{pessoaController.pessoaModel.usuarioModel.senha}" required="true"
-						requiredMessage="Senha obrigatória." match="txtConfirmacaoSenha" />
+					</h:panelGrid>
 
-					<p:outputLabel value="Senha de Confirmação" for="txtConfirmacaoSenha" />
-					<p:password id="txtConfirmacaoSenha" style="width:300px" maxlength="50" required="true"
-						requiredMessage="Senha de confirmação obrigatória." />
+				</p:tab>
 
-					<p:separator />
+			</p:tabView>
 
-					<p:commandButton value="Excluir Usuário" id="btnExcluirUsuario" icon="ui-icon-trash"
-						action="#{pessoaController.excluirUsuario}" update="tabViewPessoa" immediate="true"
-						style="right:0">
-						<p:confirm header="Confirmação" message="Deseja mesmo excluir?" icon="ui-icon-alert" />
-					</p:commandButton>
+			<h:panelGrid columns="2" style="margin-left: -3px; margin-top: 4px">
+				<p:commandButton value="Salvar" id="btnSalvar" icon="ui-icon-gear" action="#{pessoaController.salvar}" update="form-consulta" />
+				<p:commandButton value="Cancelar" id="btnCancelar" icon="ui-icon-close" action="#{pessoaController.cancelar}" immediate="true" />
+			</h:panelGrid>
 
-				</h:panelGrid>
-			</p:tab>
-		</p:tabView>
-
-		<h:panelGrid cellpadding="10">
-			<h:column>
-				<p:commandButton value="Salvar" id="btnSalvar" icon="ui-icon-gear"
-					action="#{pessoaController.salvar}" update="form-consulta" />
-
-				<p:commandButton value="Cancelar" id="btnCancelar" icon="ui-icon-close"
-					action="#{pessoaController.cancelar}" immediate="true" />
-			</h:column>
-
-
+			<p:defaultCommand target="btnSalvar" />
 		</h:panelGrid>
-
-		<p:defaultCommand target="btnSalvar" />
 	</h:form>
 
 </ui:composition>
